@@ -49,6 +49,7 @@ public class Doctor extends JFrame{
         l1 = new JLabel("Doctor ID:");
         l1.setBounds(100, 100, 150, 20);
         panel.add(l1);
+        
         this.add(panel);
         
         id = new JTextField("");
