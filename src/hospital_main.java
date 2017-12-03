@@ -18,12 +18,32 @@ public class hospital_main {
 		Room_detail rt1 = new Room_detail("RMID_1");
 		rt1.setVisible(true);
         rt1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        */
+        
 		AddDoctorAppointment da = new AddDoctorAppointment("APID_1");
 		da.setVisible(true);
         da.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Service_appointment sa = new Service_appointment("APID_1");
         sa.setVisible(true);
         sa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        */
+        
+        
+        //12-1
+		Outpatient_treatments da = new Outpatient_treatments("OTID_1");
+		da.setVisible(true);
+        da.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        inPatient_details id = new inPatient_details("IPID_1");
+        id.setVisible(true);
+        id.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Guardian_details gd = new Guardian_details("GDID_1");
+        gd.setVisible(true);
+        gd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Admission_details ad = new Admission_details("ADID_1");
+		ad.setVisible(true);
+        ad.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
 	}
 }

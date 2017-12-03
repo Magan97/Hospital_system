@@ -35,6 +35,7 @@ public class AddDoctorAppointment extends JFrame{
 	ArrayList<String> pid = new ArrayList<String>();
 	JSpinner timein1,timein2;
 	JTextField text,a_id;
+	
 	public AddDoctorAppointment(String ID)
 	{
 		setSize(900,700);
