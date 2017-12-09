@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-11-26 05:02:39
+-- Generation Time: 2017-12-09 13:59:20
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -27,16 +27,25 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `admission_details` (
-  `admission_id` int(11) DEFAULT NULL,
-  `patient_id` int(11) DEFAULT NULL,
-  `guardian_id` int(11) DEFAULT NULL,
-  `room_ward_id` int(11) DEFAULT NULL,
-  `bed_id` int(11) DEFAULT NULL,
-  `refer_doctor` int(11) DEFAULT NULL,
+  `admission_id` varchar(11) DEFAULT NULL,
+  `patient_id` varchar(11) DEFAULT NULL,
+  `guardian_id` varchar(11) DEFAULT NULL,
+  `room_ward_id` varchar(11) DEFAULT NULL,
+  `bed_id` varchar(11) DEFAULT NULL,
+  `refer_doctor` varchar(11) DEFAULT NULL,
   `admission_date` date DEFAULT NULL,
-  `admission_time` date DEFAULT NULL,
-  `emergency_contact` varchar(100) DEFAULT NULL
+  `admission_time` varchar(100) DEFAULT NULL,
+  `emergency_contact` varchar(100) DEFAULT NULL,
+  `status` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `admission_details`
+--
+
+INSERT INTO `admission_details` (`admission_id`, `patient_id`, `guardian_id`, `room_ward_id`, `bed_id`, `refer_doctor`, `admission_date`, `admission_time`, `emergency_contact`, `status`) VALUES
+('ADID_1', 'IPID_2', 'GDID_1', 'WAID_1', 'BDID_2', 'DCID_2', '2017-12-04', '1:5', '123', 'Y'),
+('ADID_2', 'IPID_4', 'GDID_1', 'RMID_5', 'BDID_1', 'DCID_2', '2017-12-14', '1:5', 'NO', 'Y');
 
 -- --------------------------------------------------------
 
@@ -85,12 +94,20 @@ CREATE TABLE IF NOT EXISTS `appointment_bill_payment` (
 --
 
 CREATE TABLE IF NOT EXISTS `bed_details` (
-  `bed_id` int(11) DEFAULT NULL,
-  `room_ward_id` int(11) DEFAULT NULL,
+  `bed_id` varchar(11) DEFAULT NULL,
+  `room_ward_id` varchar(11) DEFAULT NULL,
   `available` varchar(20) DEFAULT NULL,
-  `admission_id` int(11) DEFAULT NULL,
+  `admission_id` varchar(11) DEFAULT NULL,
   `bed_desc` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `bed_details`
+--
+
+INSERT INTO `bed_details` (`bed_id`, `room_ward_id`, `available`, `admission_id`, `bed_desc`) VALUES
+('BDID_1', 'RMID_1', 'Y', NULL, 'no'),
+('BDID_2', 'WAID_1', 'Y', NULL, 'asdfgh');
 
 -- --------------------------------------------------------
 
@@ -114,7 +131,8 @@ CREATE TABLE IF NOT EXISTS `doctor_appointment` (
 --
 
 INSERT INTO `doctor_appointment` (`appointment_id`, `patient_id`, `doctor_id`, `appointment_date`, `appointment_time`) VALUES
-('APID_1', 'PAID_1', 'DCID_2', '2017-11-24', '5:0');
+('APID_1', 'PAID_1', 'DCID_2', '2017-11-24', '5:0'),
+('APID_2', 'PAID_1', 'DCID_2', '2017-12-14', '16:10');
 
 -- --------------------------------------------------------
 
@@ -183,13 +201,24 @@ INSERT INTO `doctor_schedule_details` (`schedule_id`, `doctor_id`, `doctor_in`, 
 --
 
 CREATE TABLE IF NOT EXISTS `guardian_details` (
-  `guardian_id` int(11) DEFAULT NULL,
+  `guardian_id` varchar(11) DEFAULT NULL,
   `guardian_fname` varchar(20) DEFAULT NULL,
   `guardian_lname` varchar(20) DEFAULT NULL,
   `guardian_NIC` varchar(20) DEFAULT NULL,
   `guardian_address` varchar(100) DEFAULT NULL,
-  `guardian_phone` varchar(20) DEFAULT NULL
+  `guardian_phone` varchar(20) DEFAULT NULL,
+  `fax_number` int(20) NOT NULL,
+  `occupation` varchar(20) NOT NULL,
+  `status` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `guardian_details`
+--
+
+INSERT INTO `guardian_details` (`guardian_id`, `guardian_fname`, `guardian_lname`, `guardian_NIC`, `guardian_address`, `guardian_phone`, `fax_number`, `occupation`, `status`) VALUES
+('GDID_1', 'LIU', 'Yi', '1234567', 'asdfg', '1398546235', 52147, 'worker', 'Y'),
+('GDID_2', 'AA', 'AA', '11', 'ADSD', '22', 11, 'TEST', 'Y');
 
 -- --------------------------------------------------------
 
@@ -275,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `inpatient_services` (
 --
 
 CREATE TABLE IF NOT EXISTS `in_patient_details` (
-  `patient_id` int(11) DEFAULT NULL,
+  `patient_id` varchar(11) DEFAULT NULL,
   `patient_fname` varchar(20) DEFAULT NULL,
   `patient_iname` varchar(20) DEFAULT NULL,
   `patient_dob` date DEFAULT NULL,
@@ -287,8 +316,19 @@ CREATE TABLE IF NOT EXISTS `in_patient_details` (
   `patient_height` int(11) DEFAULT NULL,
   `patient_weight` int(11) DEFAULT NULL,
   `patient_blood_group` varchar(20) DEFAULT NULL,
-  `patient_notes` varchar(100) DEFAULT NULL
+  `patient_notes` varchar(100) DEFAULT NULL,
+  `status` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `in_patient_details`
+--
+
+INSERT INTO `in_patient_details` (`patient_id`, `patient_fname`, `patient_iname`, `patient_dob`, `patient_sex`, `patient_NID`, `patient_hphone`, `patient_mphone`, `patient_address`, `patient_height`, `patient_weight`, `patient_blood_group`, `patient_notes`, `status`) VALUES
+('IPID_1', 'WANG', 'Wu', '2017-12-16', 'Female', '12334', '6167856', '13835681427', 'hebut', 168, 52, 'A+', 'no', 'Y'),
+('IPID_2', 'ZHANG', 'San', '2017-12-24', 'Male', '123456', '564789', '987654321', 'tianjin', 186, 87, 'B', 'no', 'Y'),
+('IPID_3', 'asd', 'asd', '2017-12-01', 'Male', '123', '7896', '13920225', 'asd', 170, 45, 'A', '', 'Y'),
+('IPID_4', 'TEST', 'TEDT', '2017-12-16', 'Male', '123', '13', '123', 'AA', 12, 12, 'AA', 'TEST', 'Y');
 
 -- --------------------------------------------------------
 
@@ -322,10 +362,19 @@ CREATE TABLE IF NOT EXISTS `login_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `medicine_category` (
-  `category_id` int(11) DEFAULT NULL,
+  `category_id` varchar(11) DEFAULT NULL,
   `category_name` varchar(20) DEFAULT NULL,
-  `category_desc` varchar(100) DEFAULT NULL
+  `category_desc` varchar(100) DEFAULT NULL,
+  `status` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `medicine_category`
+--
+
+INSERT INTO `medicine_category` (`category_id`, `category_name`, `category_desc`, `status`) VALUES
+('CGID_1', 'category', 'fdsa', 'Y'),
+('CGID_2', 'lkjsf', 'wqrwsd', 'Y');
 
 -- --------------------------------------------------------
 
@@ -334,14 +383,23 @@ CREATE TABLE IF NOT EXISTS `medicine_category` (
 --
 
 CREATE TABLE IF NOT EXISTS `medicine_details` (
-  `product_id` int(11) DEFAULT NULL,
+  `product_id` varchar(11) DEFAULT NULL,
   `product_name` varchar(20) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `supplier_id` int(11) DEFAULT NULL,
+  `category_id` varchar(11) DEFAULT NULL,
+  `supplier_id` varchar(11) DEFAULT NULL,
   `units_in_stock` int(11) DEFAULT NULL,
   `unit_price` int(11) DEFAULT NULL,
-  `recorder_level` varchar(20) DEFAULT NULL
+  `recorder_level` varchar(20) DEFAULT NULL,
+  `status` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `medicine_details`
+--
+
+INSERT INTO `medicine_details` (`product_id`, `product_name`, `category_id`, `supplier_id`, `units_in_stock`, `unit_price`, `recorder_level`, `status`) VALUES
+('PDID_1', 'eye_water', 'CGID_1', 'SPID_1', 200, 18, '1', 'Y'),
+('PDID_2', 'digest_pill', 'CGID_2', 'SPID_2', 190, 25, '2', 'Y');
 
 -- --------------------------------------------------------
 
@@ -350,14 +408,25 @@ CREATE TABLE IF NOT EXISTS `medicine_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `outpatient_treatment` (
-  `opHistory_id` int(11) DEFAULT NULL,
-  `patient_id` int(11) DEFAULT NULL,
-  `doctor_id` int(11) DEFAULT NULL,
+  `treatment_id` varchar(11) DEFAULT NULL,
+  `patient_id` varchar(11) DEFAULT NULL,
+  `doctor_id` varchar(11) DEFAULT NULL,
   `Date` date DEFAULT NULL,
-  `Time` date DEFAULT NULL,
+  `Time` varchar(20) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
-  `prescription` varchar(100) DEFAULT NULL
+  `prescription` varchar(100) DEFAULT NULL,
+  `Status` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `outpatient_treatment`
+--
+
+INSERT INTO `outpatient_treatment` (`treatment_id`, `patient_id`, `doctor_id`, `Date`, `Time`, `description`, `prescription`, `Status`) VALUES
+('OTID_1', 'PAID_1', 'DCID_2', '2017-12-13', '3:15', '123', 'asd', 'Y'),
+('OTID_2', 'PAID_2', 'DCID_2', '2017-12-20', '6:35', 'fghj', 'lkjh', 'Y'),
+('OTID_3', 'PAID_2', 'DCID_1', '2017-12-14', '2:20', '123', '45611', 'Y'),
+('OTID_4', 'PAID_1', 'DCID_2', '2017-12-01', '2:25', '11', '22', 'Y');
 
 -- --------------------------------------------------------
 
@@ -421,7 +490,8 @@ CREATE TABLE IF NOT EXISTS `patient_details` (
 --
 
 INSERT INTO `patient_details` (`patient_id`, `firstname`, `lastname`, `gender`, `address`, `telephone`, `status`, `notes`) VALUES
-('PAID_1', 'ZHANG', 'San', 'male', 'hebut', 133123456, 'Y', 'no');
+('PAID_1', 'ZHANG', 'San', 'male', 'hebut', 133123456, 'Y', 'no'),
+('PAID_2', 'LI', 'Si', 'male', 'hebut', 13930582, 'Y', 'no');
 
 -- --------------------------------------------------------
 
@@ -627,12 +697,23 @@ INSERT INTO `service_schedule_details` (`service_schedule_id`, `service_id`, `se
 --
 
 CREATE TABLE IF NOT EXISTS `suppliers` (
-  `supplier_id` int(11) DEFAULT NULL,
+  `supplier_id` varchar(11) NOT NULL DEFAULT '',
   `company_name` varchar(20) DEFAULT NULL,
   `contact_name` varchar(20) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `phone_no` varchar(20) DEFAULT NULL
+  `phone_no` varchar(20) DEFAULT NULL,
+  `fax_number` int(20) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  PRIMARY KEY (`supplier_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `suppliers`
+--
+
+INSERT INTO `suppliers` (`supplier_id`, `company_name`, `contact_name`, `address`, `phone_no`, `fax_number`, `status`) VALUES
+('SPID_1', 'Company', 'Contact', 'hebut', '138584675', 666666, 'Y'),
+('SPID_2', 'poiuyt', 'wrqrwqd', 'gsdgsf', '1369875235', 888888, 'Y');
 
 -- --------------------------------------------------------
 
@@ -655,15 +736,41 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `visit_details`
+--
+
+CREATE TABLE IF NOT EXISTS `visit_details` (
+  `visit_id` varchar(10) NOT NULL,
+  `visit_date` date NOT NULL,
+  `visit_time` varchar(20) NOT NULL,
+  `doctor_id` varchar(10) NOT NULL,
+  `admission_id` varchar(10) NOT NULL,
+  `patient_id` varchar(10) NOT NULL,
+  `desciption` varchar(20) NOT NULL,
+  `prescription_id` varchar(20) NOT NULL,
+  PRIMARY KEY (`visit_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `ward_details`
 --
 
 CREATE TABLE IF NOT EXISTS `ward_details` (
-  `ward_id` int(11) DEFAULT NULL,
+  `ward_id` varchar(11) DEFAULT NULL,
   `ward_name` varchar(20) DEFAULT NULL,
   `ward_rate` int(11) DEFAULT NULL,
-  `ward_desc` varchar(100) DEFAULT NULL
+  `ward_desc` varchar(100) DEFAULT NULL,
+  `status` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `ward_details`
+--
+
+INSERT INTO `ward_details` (`ward_id`, `ward_name`, `ward_rate`, `ward_desc`, `status`) VALUES
+('WAID_1', 'heard_ward', 50, 'for heart patient', 'Y');
 
 --
 -- 限制导出的表

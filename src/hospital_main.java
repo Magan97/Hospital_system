@@ -29,6 +29,7 @@ public class hospital_main {
         
         
         //12-1
+		/*
 		Outpatient_treatments da = new Outpatient_treatments("OTID_1");
 		da.setVisible(true);
         da.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,6 +45,20 @@ public class hospital_main {
 		Admission_details ad = new Admission_details("ADID_1");
 		ad.setVisible(true);
         ad.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        */
+		//12-9
+		/*
+		Supplier_details gd = new Supplier_details("SPID_1");
+        gd.setVisible(true);
+        gd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Medicine_category gd= new Medicine_category("CGID_1");
+        gd.setVisible(true);
+        gd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+        
+        Medicine_product_details pro = new Medicine_product_details("PDID_1");
+        pro.setVisible(true);
+        pro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
 	}
 }
