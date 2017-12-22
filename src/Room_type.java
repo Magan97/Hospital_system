@@ -21,8 +21,8 @@ import javax.swing.JTextField;
 import com.mysql.jdbc.Statement;
 
 
-public class Room_type extends JFrame{
-	JPanel panel;
+public class Room_type extends HFrame{
+	//JPanel panel;
 	JLabel title;
 	String currentID,labels[] = {"Room Type:","Room Rates:","Notes:","Status"};
     JTextField[] text = new JTextField[3];
@@ -35,11 +35,15 @@ public class Room_type extends JFrame{
     JTextField record;
     JComboBox<Object> status;
     int NO;
+    Room_type()
+    {
+    	this("1");
+    }
 	Room_type(String ID){
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Room Type Details");
         title.setBounds(350, 50, 400, 50);
@@ -133,8 +137,8 @@ public class Room_type extends JFrame{
             	getInfo(4);
             }
         });
-        String[] sourceArray = ID.split("_");
-        record = new JTextField("                       Record  "+Integer.parseInt(sourceArray[1]));
+        //String[] sourceArray = ID.split("_");
+        record = new JTextField("                       Record  "+Integer.parseInt(ID));
         record.setBounds(320, 500, 200, 30);
         record.setEditable(false);
         panel.add(record);

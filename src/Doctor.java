@@ -25,20 +25,24 @@ import javax.swing.JTextField;
 import com.mysql.jdbc.Statement;
 
 
-public class Doctor extends JFrame{
-	JPanel panel;
+public class Doctor extends HFrame{
+	//JPanel panel;
 	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18;
 	JTextField id,fn,ln,hp,nn,mp,ad,qu,vc,note,cc,bs,record;
 	JComboBox sex,dt,sp,status;
 	JButton first,last,next,end,add,edit,save,refresh,viewall,close;
 	String currrentID;
+	
+	Doctor(){
+		this("DCID_1");
+	}
 	Doctor(String ID)
 	{
 		currrentID = ID;
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Doctor Details");
         title.setBounds(350, 50, 400, 50);
@@ -564,6 +568,13 @@ public class Doctor extends JFrame{
         close =  new JButton("Close");
         close.setBounds(440, 540, 80, 30);
         panel.add(close);
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	dispose();
+            	
+            }
+        });
         
         getInfo(currrentID);
         look();

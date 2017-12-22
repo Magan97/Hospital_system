@@ -29,8 +29,8 @@ import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
 
 
-public class Admission_details extends JFrame{
-	JPanel panel;
+public class Admission_details extends HFrame{
+	//JPanel panel;
 	JLabel title;
 	JComboBox status,pat_id,guar_id,doc_id,room,ward,bed;
 	ArrayList<String> did = new ArrayList<String>();
@@ -53,13 +53,17 @@ public class Admission_details extends JFrame{
     JTextField record;
     ButtonGroup bg;
     JRadioButton rb1,rb2;
-	public Admission_details(String ID)
+    Admission_details()
+    {
+    	this("ADID_1");
+    }
+	Admission_details(String ID)
 	{
 		currentID = ID;
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Admission Details");
         title.setBounds(300, 50, 400, 50);
@@ -465,7 +469,7 @@ public class Admission_details extends JFrame{
         action[5].addActionListener(new ActionListener() { //back to main
             @Override
             public void actionPerformed(ActionEvent e) {
-            	       	
+            	dispose();
             }
         });
         action[6].addActionListener(new ActionListener() { //update

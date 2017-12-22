@@ -25,8 +25,8 @@ import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
 
 
-public class Medicine_product_details extends JFrame{
-	JPanel panel;
+public class Medicine_product_details extends HFrame{
+	//JPanel panel;
 	JLabel title,l2;
 	JComboBox status,supp_id,cate_id;
 	JButton ps,ds,save,close,ok,cancel,back1;
@@ -41,13 +41,17 @@ public class Medicine_product_details extends JFrame{
     JTextField record;
     ArrayList<String> supp_ids = new ArrayList<String>();
     ArrayList<String> cate_ids = new ArrayList<String>();
-	public Medicine_product_details(String ID)
+    Medicine_product_details()
+    {
+    	this("PDID_1");
+    }
+	Medicine_product_details(String ID)
 	{
 		currentID = ID;
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Product Details");
         title.setBounds(300, 50, 400, 50);
@@ -229,7 +233,7 @@ public class Medicine_product_details extends JFrame{
         action[5].addActionListener(new ActionListener() { //back to main
             @Override
             public void actionPerformed(ActionEvent e) {
-            	       	
+            	       	dispose();
             }
         });
         action[6].addActionListener(new ActionListener() { //update

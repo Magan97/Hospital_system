@@ -24,16 +24,18 @@ import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
 
 
-public class Outpatient_treatments extends JFrame{
-	JPanel panel,panel1;
+public class Outpatient_treatments extends HFrame{
+	//JPanel panel;
+	JPanel panel1;
 	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,title1;
-	JComboBox doc_id,pat_id,status;
-	JButton ps,ds,save,close,ok,cancel,back1;
-	String currentID,labels[] = {"Treatment ID:","Patient ID:","Doctor ID:","Date","Time","Descriptin","Prescription","Status"};
+	JComboBox doc_id,pat_id,status,pre;
+	JButton ps,ds,pres,save,close,ok,cancel,back1;
+	String currentID,labels[] = {"Treatment ID:","Patient ID:","Doctor ID:","Date","Time","Descriptin","prescription_id","Status"};
 	JSpinner timein1,timein2;
-	JTextField text,a_id,tid,des,pre;
+	JTextField text,a_id,tid,des;
 	ArrayList<String> did = new ArrayList<String>();
 	ArrayList<String> pid = new ArrayList<String>();
+	ArrayList<String> cid = new ArrayList<String>();
 	int[] move_x = {120,220,540,640};
     JButton[] move = new JButton[4];
 	String move_content[] = {"First","Last","Next","End"};
@@ -41,13 +43,17 @@ public class Outpatient_treatments extends JFrame{
     JButton[] action = new JButton[8];
     String action_content[] = {"Add","Edit","Save","Refresh","View all","Close","Update","Back"};
     JTextField record;
-	public Outpatient_treatments(String ID)
+    Outpatient_treatments()
+    {
+    	this("OTID_1");
+    }
+	Outpatient_treatments(String ID)
 	{
 		currentID = ID;
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Treatment Details");
         title.setBounds(300, 50, 400, 50);
@@ -129,12 +135,27 @@ public class Outpatient_treatments extends JFrame{
         panel.add(l7);
         
         des = new JTextField("");
-        des.setBounds(380, 300, 150, 30);
+        des.setBounds(380, 300, 150, 20);
         panel.add(des);
         
-        pre = new JTextField("");
-        pre.setBounds(380, 340, 150, 30);
+        size1 = cid.size();
+        String[] preid = new String[size1];
+        for(int i=0;i<size1;i++){
+        	preid[i] = (String)cid.get(i); 
+        }
+        pre = new JComboBox<Object>(preid);
+        pre.setBounds(380, 340, 150, 20);
         panel.add(pre);
+        
+        ps = new JButton("info");
+        ps.setBounds(560,340, 80, 20);
+        panel.add(ps);
+        ps.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	pre_table();
+            }
+        });
         
         String[] status1 = {"Y-available","N-leaving"};
         status = new JComboBox<Object>(status1);
@@ -254,7 +275,7 @@ public class Outpatient_treatments extends JFrame{
         action[5].addActionListener(new ActionListener() { //back to main
             @Override
             public void actionPerformed(ActionEvent e) {
-            	       	
+            	      dispose(); 	
             }
         });
         action[6].addActionListener(new ActionListener() { //update
@@ -341,6 +362,11 @@ public class Outpatient_treatments extends JFrame{
 					String id = rs1.getString("patient_id");
 					pid.add(id);
 				}
+				ResultSet rs2 = stmt.executeQuery("select * from prescription_details");
+				while(rs2.next()){
+					String id = rs2.getString("prescription_id");
+					cid.add(id);
+				}
 				con.commit();
 			}catch(Exception e){
 				con.rollback();
@@ -396,6 +422,76 @@ public class Outpatient_treatments extends JFrame{
 						data1[i][5] = "Y";
 					else
 						data1[i][5] = "N";
+					i++;
+				}
+				con.commit();
+			}catch(Exception e){
+				con.rollback();
+				e.printStackTrace();
+				System.out.println("failed");
+			}			
+		}catch(SQLException ex){
+			System.out.println("Can¡¯t load the Driver");
+		}
+	    final JTable table = new JTable(data1, columnName);
+        table.setPreferredScrollableViewportSize(new Dimension(300,150));
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(50, 80, 300, 150);
+        back1 = new JButton("Back");
+        back1.setBounds(160, 260, 70, 30);
+        back1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {     
+            	l.setVisible(false);
+            }
+        });
+        l.add(back1);
+        l.add(scrollPane);
+        l.setVisible(true);
+	}
+	public void pre_table()
+	{
+		System.out.print("show patient table ");
+		JFrame l = new JFrame();
+		JPanel panel1;
+		l.setLayout(null);
+		l.setSize(400,350);
+        l.setTitle("Hospital System");
+        l.setLocation(350,180);
+        panel1 = new JPanel();
+        panel1.setLayout(null);
+        title1 = new JLabel("Prescriptions Info");
+        title1.setBounds(140, 20, 150, 80);
+        l.add(title1);
+		String[] columnName = {"prescription id","medicine/service id","frequency ","number of days","status"};
+		Object[][] data1 = null;
+		try {
+			//Class.forName(com.mysql.jdbc.Driver.class.getName());
+			String url = "jdbc:mysql://localhost/hospital_system";
+			String login = "root";
+			String password = "";
+			Connection con;
+			con = DriverManager.getConnection(url, login, password);
+			con.setAutoCommit(false);
+			int i=0;
+			try{
+				Statement stmt1 = (Statement) con.createStatement();
+				ResultSet rs1 = stmt1.executeQuery("select count(*) from prescription_details");
+				if(rs1.next()){
+					int n = rs1.getInt(1);
+					data1 = new Object[n][5];
+				}
+				Statement stmt2 = (Statement) con.createStatement();
+				ResultSet rs2 = stmt2.executeQuery("select * from prescription_details");
+				while(rs2.next()){
+					data1[i][0] = rs2.getString("prescription_id");
+					data1[i][1] = rs2.getString("medicine_service_id");
+					data1[i][2] = rs2.getString("frequency");
+					data1[i][3] = rs2.getString("no_of_days");
+					if(rs2.getString("status").indexOf("Y") != -1)
+						data1[i][4] = "Y";
+					else
+						data1[i][4] = "N";
 					i++;
 				}
 				con.commit();
@@ -575,7 +671,7 @@ public class Outpatient_treatments extends JFrame{
 					int t12 = Integer.parseInt(sourceArray1[1]);
 					timein2.setValue(t12);
 					des.setText(rs.getString("description"));
-					pre.setText(rs.getString("prescription"));
+					pre.setSelectedItem(rs.getString("prescription_id"));
 					String ss = rs.getString("Status");
 					if(ss.indexOf("Y") != -1)
 						status.setSelectedItem("Y-available");
@@ -609,7 +705,6 @@ public class Outpatient_treatments extends JFrame{
 		timein2.setEnabled(true);
 		des.setText("");
 		des.setEditable(true);
-		pre.setText("");
 		pre.setEditable(true);
 		for(int i=0;i<4;i++)
 			move[i].setEnabled(false);
@@ -635,7 +730,7 @@ public class Outpatient_treatments extends JFrame{
 		info[3] = text.getText();
 		info[4] = timein1.getValue().toString()+":"+timein2.getValue().toString();
 		info[5] = des.getText();
-		info[6] = pre.getText();
+		info[6] = pre.getSelectedItem().toString();
 		String status1 = status.getSelectedItem().toString();
 		if(status1 == "Y-available")
 			info[7] = "Y";
@@ -651,7 +746,7 @@ public class Outpatient_treatments extends JFrame{
 			con.setAutoCommit(false);
 			try{
 				Statement stmt = (Statement) con.createStatement();
-				int rs = stmt.executeUpdate("insert into outpatient_treatment (treatment_id,patient_id,doctor_id,Date,Time,description,prescription,Status) "
+				int rs = stmt.executeUpdate("insert into outpatient_treatment (treatment_id,patient_id,doctor_id,Date,Time,description,prescription_id,Status) "
 						+ "values('"+info[0]+"','"+info[1]+"','"+info[2]+"','"+info[3]+"','"+info[4]+"','"+info[5]+"','"+info[6]+"','"+info[7]+"')");
 				if(rs > 0){
 					System.out.println("add success");
@@ -700,7 +795,7 @@ public class Outpatient_treatments extends JFrame{
 		info[3] = text.getText();
 		info[4] = timein1.getValue().toString()+":"+timein2.getValue().toString();
 		info[5] = des.getText();
-		info[6] = pre.getText();
+		info[6] = pre.getSelectedItem().toString();
 		String status1 = status.getSelectedItem().toString();
 		if(status1 == "Y-available")
 			info[7] = "Y";
@@ -717,7 +812,7 @@ public class Outpatient_treatments extends JFrame{
 			try{
 				Statement stmt = (Statement) con.createStatement();
 				int rs = stmt.executeUpdate("update outpatient_treatment set "
-						+ "patient_id='"+info[1]+"',doctor_id='"+info[2]+"',Date='"+info[3]+"',Time='"+info[4]+"',description='"+info[5]+"',prescription='"+info[6]+"',Status='"+info[7]+"'where treatment_id like '"+info[0]+"'");
+						+ "patient_id='"+info[1]+"',doctor_id='"+info[2]+"',Date='"+info[3]+"',Time='"+info[4]+"',description='"+info[5]+"',prescription_id='"+info[6]+"',Status='"+info[7]+"'where treatment_id like '"+info[0]+"'");
 				if(rs > 0)
 					System.out.println("update success and influence "+rs);
 				else{

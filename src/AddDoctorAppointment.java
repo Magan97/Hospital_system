@@ -23,11 +23,12 @@ import javax.swing.SpinnerNumberModel;
 
 import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
+import com.swing.test.timetest;
 
 import java.util.Calendar;
 
-public class AddDoctorAppointment extends JFrame{
-	JPanel panel;
+public class AddDoctorAppointment extends HFrame{
+	//JPanel panel;
 	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
 	JComboBox doc_id,pat_id;
 	JButton ps,ds,save,close,ok,cancel;
@@ -35,13 +36,16 @@ public class AddDoctorAppointment extends JFrame{
 	ArrayList<String> pid = new ArrayList<String>();
 	JSpinner timein1,timein2;
 	JTextField text,a_id;
-	
-	public AddDoctorAppointment(String ID)
+	AddDoctorAppointment()
+	{
+		this("APID_1");
+	}
+	AddDoctorAppointment(String ID)
 	{
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Add Doctor Appointment");
         title.setBounds(300, 50, 400, 50);
@@ -149,6 +153,16 @@ public class AddDoctorAppointment extends JFrame{
         close = new JButton("Close");
         close.setBounds(320, 430, 80, 30);
         panel.add(close);
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	dispose();
+            	doctor_appointment_look a = new doctor_appointment_look("APID_1");
+         		a.setVisible(true);
+                a.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            }
+        });
+        
         
         patient_table();
         /*
@@ -503,36 +517,42 @@ public class AddDoctorAppointment extends JFrame{
 		String doid = doc_id.getSelectedItem().toString();
 		String date = text.getText();
 		String time = timein1.getValue().toString()+":"+timein2.getValue().toString();
-		try {
-			Class.forName(com.mysql.jdbc.Driver.class.getName());
-			String url = "jdbc:mysql://localhost/hospital_system";
-			String login = "root";
-			String password = "";
-			Connection con;
-			con = DriverManager.getConnection(url, login, password);
-			con.setAutoCommit(false);
-			try{
-				Statement stmt = (Statement) con.createStatement();
-				int rs = stmt.executeUpdate("insert into doctor_appointment (appointment_id,patient_id,doctor_id,appointment_date,appointment_time) "
-						+ "values('"+apid+"','"+paid+"','"+doid+"','"+date+"','"+time+"')");
-				if(rs > 0){
-					System.out.println("add success");
-					reminder("successsfully");
+		timetest t = new timetest();
+		if(t.aftertoday(text)){
+			try {
+				Class.forName(com.mysql.jdbc.Driver.class.getName());
+				String url = "jdbc:mysql://localhost/hospital_system";
+				String login = "root";
+				String password = "";
+				Connection con;
+				con = DriverManager.getConnection(url, login, password);
+				con.setAutoCommit(false);
+				try{
+					Statement stmt = (Statement) con.createStatement();
+					int rs = stmt.executeUpdate("insert into doctor_appointment (appointment_id,patient_id,doctor_id,appointment_date,appointment_time) "
+							+ "values('"+apid+"','"+paid+"','"+doid+"','"+date+"','"+time+"')");
+					if(rs > 0){
+						System.out.println("add success");
+						reminder("successsfully");
+					}
+					else{
+						System.out.println("add failed");
+						reminder("failed");
+					}   				
+					con.commit();
+				}catch(Exception ex){
+					con.rollback();
+					ex.printStackTrace();
+					System.out.println("failed");
 				}
-				else{
-					System.out.println("add failed");
-					reminder("failed");
-				}   				
-				con.commit();
-			}catch(Exception ex){
-				con.rollback();
-				ex.printStackTrace();
-				System.out.println("failed");
+				
+			}catch(ClassNotFoundException | SQLException ex){
+				System.out.println("Can¡¯t load the Driver");
 			}
-			
-		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+		}else{
+			reminder("fails");
 		}
+		
 	}
 	public String newid()
 	{

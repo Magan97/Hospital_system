@@ -27,8 +27,8 @@ import com.swing.test.calender;
 
 import java.util.Calendar;
 
-public class Service_appointment extends JFrame{
-	JPanel panel;
+public class Service_appointment extends HFrame{
+	//JPanel panel;
 	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
 	JComboBox ser_id,pat_id;
 	JButton ps,ds,save,close,ok,cancel;
@@ -36,12 +36,16 @@ public class Service_appointment extends JFrame{
 	ArrayList<String> pid = new ArrayList<String>();
 	JSpinner timein1,timein2;
 	JTextField text,a_id;
-	public Service_appointment(String ID)
+	Service_appointment()
+	{
+		this("APID_1");
+	}
+	Service_appointment(String ID)
 	{
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Hospital Service Appointment");
         title.setBounds(300, 50, 400, 50);
@@ -151,15 +155,15 @@ public class Service_appointment extends JFrame{
         panel.add(close);
         
         patient_table();
-        /*
-        ok = new JButton("OK");
-        ok.setBounds(600, 430, 80, 30);
-        panel.add(ok);
-        
-        cancel = new JButton("Cancel");
-        cancel.setBounds(720, 430, 80, 30);
-        panel.add(cancel);*/
-        
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	dispose();     	
+             	service_appointment_look a = new service_appointment_look("APID_1");
+         		a.setVisible(true);
+                a.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            }
+        });
         doctor_table();
         save.addActionListener(new ActionListener() {
             @Override
@@ -480,7 +484,7 @@ public class Service_appointment extends JFrame{
         b1.setBounds(120, 100, 60, 30);
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //dispose();
+                //y();
             	jf.setVisible(false);
 		        //rt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }

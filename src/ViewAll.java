@@ -20,11 +20,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import com.mysql.jdbc.Statement;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 
-public class ViewAll extends JFrame{
-	JPanel panel;
+public class ViewAll extends HFrame{
+	//JPanel panel;
 	JLabel title,sfor,stext;
 	JButton search,refresh,close;
 	JTextField searchText;
@@ -33,69 +32,14 @@ public class ViewAll extends JFrame{
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("View Doctor Details");
         title.setBounds(300, 50, 400, 50);
         title.setFont(new Font("Dialog", 1, 25));
         title.setSize(new Dimension(450,50));
         panel.add(title);
-        /*
-        String[] columnName = {"DocID", "Firstname", "Lastname","Sex","Home phone",
-        		"NIC No","Mobile phone","Address","Qualfications","Specialization",
-        		"Type","Visit charge","Channeling Charge","Basic Salary","Notes"};        
-        Object[][] data1 = null;
-        try {
-			//Class.forName(com.mysql.jdbc.Driver.class.getName());
-			String url = "jdbc:mysql://localhost/hospital_system";
-			String login = "root";
-			String password = "";
-			Connection con;
-			con = DriverManager.getConnection(url, login, password);
-			con.setAutoCommit(false);
-			int i=0;
-			try{
-				Statement stmt1 = (Statement) con.createStatement();
-				ResultSet rs1 = stmt1.executeQuery("select count(*) from doctor_details");
-				if(rs1.next()){
-					int n = rs1.getInt(1);
-					data1 = new Object[n][15];
-				}
-				Statement stmt2 = (Statement) con.createStatement();
-				ResultSet rs2 = stmt1.executeQuery("select * from doctor_details");
-				while(rs2.next()){
-					data1[i][0] = rs2.getString("doctor_id");
-					data1[i][1] = rs2.getString("doctor_fname");
-					data1[i][2] = rs2.getString("doctor_lname");
-					data1[i][3] = rs2.getString("doctor_sex");
-					data1[i][4] = rs2.getString("doctor_hphone");
-					data1[i][5] = rs2.getString("doctor_NID");
-					data1[i][6] = rs2.getString("doctor_mphone");
-					data1[i][7] = rs2.getString("doctor_address");
-					data1[i][8] = rs2.getString("doctor_qualification");
-					data1[i][9] = rs2.getString("doctor_specialization");
-					data1[i][10] = rs2.getString("doctor_type");
-					data1[i][11] = rs2.getString("doctor_vcharge");
-					data1[i][12] = rs2.getString("doctor_ccharge");
-					data1[i][13] = rs2.getString("doctor_notes");
-					data1[i][14] = rs2.getString("doctor_basic_sal");
-					i++;
-				}
-				con.commit();
-			}catch(Exception e){
-				con.rollback();
-				e.printStackTrace();
-				System.out.println("failed");
-			}
-			
-		}catch(SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
-		}
-        final JTable table = new JTable(data1, columnName);
-        table.setPreferredScrollableViewportSize(new Dimension(800,400));
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(50, 100, 800, 400);
-        panel.add(scrollPane);*/
+       
         
         search = new JButton("Search");
         search.setBounds(270, 510, 80, 30);
@@ -247,7 +191,7 @@ public class ViewAll extends JFrame{
 			}
 			
 		}catch(SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 		 final JTable table = new JTable(data1, columnName);
 	        table.setPreferredScrollableViewportSize(new Dimension(800,400));

@@ -20,8 +20,8 @@ import javax.swing.JTextField;
 import com.mysql.jdbc.Statement;
 
 
-public class inPatient_all extends JFrame{
-	JPanel panel;
+public class inPatient_all extends HFrame{
+	//JPanel panel;
 	JLabel title,sfor,stext;
 	JButton search,refresh,close;
 	JTextField searchText;
@@ -31,7 +31,7 @@ public class inPatient_all extends JFrame{
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("All Patients");
         title.setBounds(300, 50, 400, 50);

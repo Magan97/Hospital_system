@@ -19,8 +19,8 @@ import javax.swing.JTextField;
 import com.mysql.jdbc.Statement;
 
 
-public class outpatient_treatment_all extends JFrame{
-	JPanel panel;
+public class outpatient_treatment_all extends HFrame{
+	//JPanel panel;
 	JLabel title,sfor,stext;
 	JButton search,refresh,close;
 	JTextField searchText;
@@ -30,7 +30,7 @@ public class outpatient_treatment_all extends JFrame{
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("All outpatient treatment");
         title.setBounds(300, 50, 400, 50);
@@ -63,7 +63,7 @@ public class outpatient_treatment_all extends JFrame{
         sfor.setBounds(150, 560, 80, 30);
         panel.add(sfor);
         
-        String[] search1 = {"treatment id","patient id","doctor id","Date","Time","description","prescription","Status"};
+        String[] search1 = {"treatment id","patient id","doctor id","Date","Time","description","prescription_id","Status"};
         searchFor = new JComboBox<Object>(search1);
         searchFor.setBounds(250, 560, 150, 30);
         panel.add(searchFor);
@@ -112,14 +112,14 @@ public class outpatient_treatment_all extends JFrame{
 				type = "Time";
 			if(t == "description")
 				type = "description";
-			if(t == "prescription")
-				type = "prescription";
+			if(t == "prescription_id")
+				type = "prescription_id";
 			if(t == "Status")
 				type = "Status";
 			selectsql = "select * from outpatient_treatment where "+type+" like '"+seartext+"'";
 		}
 		System.out.println(selectsql);
-		String[] columnName = {"treatment id","patient id","doctor id","Date","Time","description","prescription","Status"};
+		String[] columnName = {"treatment id","patient id","doctor id","Date","Time","description","prescription_id","Status"};
 		Object[][] data1 = null;
 		try {
 			//Class.forName(com.mysql.jdbc.Driver.class.getName());
@@ -146,7 +146,7 @@ public class outpatient_treatment_all extends JFrame{
 					data1[i][3] = rs2.getString("Date");
 					data1[i][4] = rs2.getString("Time");
 					data1[i][5] = rs2.getString("description");
-					data1[i][6] = rs2.getString("prescription");
+					data1[i][6] = rs2.getString("prescription_id");
 					if(rs2.getString("Status").indexOf("Y") != -1)
 						data1[i][7] = "Y-available";
 					else

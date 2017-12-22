@@ -24,11 +24,11 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import com.mysql.jdbc.Statement;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 
-public class doctor_schedual extends JFrame{
-	JPanel panel,panel1;
+public class doctor_schedual extends HFrame{
+	//JPanel panel;
+	JPanel panel1;
 	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18;
 	JTextField sid,days,note,cc,bs,record;
 	JComboBox did,dt,sp,status;
@@ -38,13 +38,17 @@ public class doctor_schedual extends JFrame{
 	JCheckBox cb1,cb2,cb3,cb4,cb5,cb6,cb7;
 	ArrayList<JCheckBox> cbs = new ArrayList<JCheckBox>();
 	ArrayList<String> mydid = new ArrayList<String>();
+	doctor_schedual()
+	{
+		this("DSID_1");
+	}
 	doctor_schedual(String SID)
 	{
 		currentSID = SID;
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Doctor Appointment Schedualing");
         title.setBounds(290, 50, 400, 50);
@@ -318,6 +322,13 @@ public class doctor_schedual extends JFrame{
         close =  new JButton("Close");
         close.setBounds(590, 570, 80, 30);
         panel.add(close);
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	dispose();
+            }
+        });
+        
         
         update = new JButton("Update");
         update.setBounds(260, 570, 80, 30);
@@ -374,7 +385,7 @@ public class doctor_schedual extends JFrame{
 			}
 			
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 	}
 	public void schedual_table()
@@ -421,7 +432,7 @@ public class doctor_schedual extends JFrame{
 			}
 			
 		}catch(SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 	 final JTable table = new JTable(data1, columnName);
         table.setPreferredScrollableViewportSize(new Dimension(800,120));
@@ -516,7 +527,7 @@ public class doctor_schedual extends JFrame{
 				return "DSID_1";
 			}
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 		return "";
 	}
@@ -562,7 +573,7 @@ public class doctor_schedual extends JFrame{
 			}
 			
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 	}
 	public void cblistener()
@@ -705,7 +716,7 @@ public class doctor_schedual extends JFrame{
 				
 			}
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 		String[] sourceArray = currentSID.split("_");
         record.setText("                       Record  "+Integer.parseInt(sourceArray[1]));
@@ -764,7 +775,7 @@ public class doctor_schedual extends JFrame{
 			}
 			
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 		return "";
 	}
@@ -792,7 +803,7 @@ public class doctor_schedual extends JFrame{
 			}
 			
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 		return "";
 	}
@@ -835,7 +846,7 @@ public class doctor_schedual extends JFrame{
 			}
 			
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
 	}
 	public void doctor_table(){
@@ -879,7 +890,7 @@ public class doctor_schedual extends JFrame{
 			}
 			
 		}catch(SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Canï¿½ï¿½t load the Driver");
 		}
         final JTable table = new JTable(data1, columnName);
         table.setPreferredScrollableViewportSize(new Dimension(260,180));

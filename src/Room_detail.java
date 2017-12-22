@@ -23,8 +23,8 @@ import javax.swing.JTextField;
 import com.mysql.jdbc.Statement;
 
 
-public class Room_detail extends JFrame{
-	JPanel panel;
+public class Room_detail extends HFrame{
+	//JPanel panel;
 	JLabel title;
 	String currentID,labels[] = {"Room ID:","Room Type:","Description:","Status"};
     JTextField id,desc;
@@ -38,12 +38,16 @@ public class Room_detail extends JFrame{
     JComboBox<Object> status,rtype;
     int NO;
     ArrayList<String> roomtype = new ArrayList<String>();
+    Room_detail()
+    {
+    	this("RMID_1");
+    }
 	Room_detail(String ID){
 		currentID = ID;
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
         panel.setLayout(null);
         title = new JLabel("Room  Details");
         title.setBounds(350, 50, 400, 50);
@@ -193,7 +197,7 @@ public class Room_detail extends JFrame{
         action[5].addActionListener(new ActionListener() { //back to main
             @Override
             public void actionPerformed(ActionEvent e) {
-            	       	
+            	       dispose();	
             }
         });
         action[6].addActionListener(new ActionListener() { //update

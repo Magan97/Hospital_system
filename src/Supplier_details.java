@@ -2,6 +2,7 @@
 import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -25,8 +27,8 @@ import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
 
 
-public class Supplier_details extends JFrame{
-	JPanel panel;
+public class Supplier_details extends HFrame{
+	//JPanel panel;
 	JLabel title,l2;
 	JComboBox status;
 	JButton ps,ds,save,close,ok,cancel,back1,patient;
@@ -39,13 +41,28 @@ public class Supplier_details extends JFrame{
     JButton[] action = new JButton[8];
     String action_content[] = {"Add","Edit","Save","Refresh","View all","Close","Update","Back"};
     JTextField record;
-	public Supplier_details(String ID)
+    Supplier_details()
+    {
+    	this("SPID_1");
+    }
+	Supplier_details(String ID)
 	{
 		currentID = ID;
 		setSize(900,700);
         setTitle("Hospital management system");
         this.setLocation(150,20);
-        panel = new JPanel();
+        //panel = new JPanel();
+        /*
+        panel = new JPanel(){	
+        	public void paintComponent(Graphics g) {
+                ImageIcon icon = new ImageIcon("1.png");
+                System.out.println("Should have a background");
+                g.drawImage(icon.getImage(), 0, 0,                  
+                this.getSize().width,
+                this.getSize().height,
+                this);
+            }
+        };*/
         panel.setLayout(null);
         title = new JLabel("Supplier Details");
         title.setBounds(300, 50, 400, 50);
@@ -211,7 +228,7 @@ public class Supplier_details extends JFrame{
         action[5].addActionListener(new ActionListener() { //back to main
             @Override
             public void actionPerformed(ActionEvent e) {
-            	       	
+            	       	dispose();
             }
         });
         action[6].addActionListener(new ActionListener() { //update
