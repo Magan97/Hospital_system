@@ -750,7 +750,7 @@ public class doctor_schedual extends HFrame{
 	public void edit()
 	{
 		sid.setEditable(false);
-		did.setEditable(true);
+		did.setEditable(false);
 		timein1.setEnabled(true);
 		timein2.setEnabled(true);
 		timeout1.setEnabled(true);

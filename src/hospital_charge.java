@@ -619,22 +619,35 @@ public class hospital_charge extends HFrame{
 			tip1.setVisible(false);
 		}
 		String di = discount.getText();
-		if(Integer.parseInt(di) >= 10)
-		{
+		if(di.equals("")){
 			tip2.setVisible(true);
 		}
 		else{
-			tip2.setVisible(false);
+			if(Integer.parseInt(di) >= 10)
+			{
+				tip2.setVisible(true);
+			}
+			else{
+				tip2.setVisible(false);
+			}
 		}
-		int cha = Integer.parseInt(charge.getText());
-		if(cha > 0)
+		if(charge.getText().equals(""))
 		{
-			tip3.setVisible(false);
-		}
-		else{
 			tip3.setVisible(true);
 		}
-		if(t.after(text) == true  && Integer.parseInt(di)<10 && cha > 0)	
+		else{
+			int cha = Integer.parseInt(charge.getText());
+			if(cha > 0)
+			{
+				tip3.setVisible(false);
+			}
+			else{
+				tip3.setVisible(true);
+			}
+		}
+		
+		
+		if(t.after(text) == true  && Integer.parseInt(di)<10 && Integer.parseInt(charge.getText()) > 0 && charge.getText().length()>0 && discount.getText().length()>0)	
 		{
 			return true;
 		}

@@ -24,7 +24,7 @@ import com.mysql.jdbc.Statement;
 
 public class Room_type extends HFrame{
 	//JPanel panel;
-	JLabel title,tip1;
+	JLabel title,tip1,tip2;
 	String currentID,labels[] = {"Room Type:","Room Rates:","Notes:","Status"};
     JTextField[] text = new JTextField[3];
     int[] move_x = {120,220,540,640};
@@ -76,7 +76,13 @@ public class Room_type extends HFrame{
                 panel.add(status);
         	}
         }
-        
+
+        tip2 = new JLabel("info can't be empty");
+		tip2.setBounds(640, 150, 200, 20);
+		tip2.setForeground(Color.red);
+		panel.add(tip2);
+		tip2.setVisible(false);
+		
         tip1 = new JLabel("Rate must > 0");
 		tip1.setBounds(640, 190, 200, 20);
 		tip1.setForeground(Color.red);
@@ -415,6 +421,8 @@ public class Room_type extends HFrame{
 		{
 			text[i].setEditable(true);
 		}
+		tip1.setVisible(false);
+		tip2.setVisible(false);
 	}
 	public void save()
 	{
@@ -471,14 +479,26 @@ public class Room_type extends HFrame{
 	
 	public boolean truevalue()
 	{
-		int price = Integer.parseInt(text[1].getText());
-		if(price >0){
-			tip1.setVisible(false);
-			return true;
-		}
-		else{
-			tip1.setVisible(true);
+		String t,r,n;
+		t = text[0].getText();
+		r = text[1].getText();
+		n = text[2].getText();
+		if(t.equals("")||r.equals("")||n.equals(""))
+		{
+			tip2.setVisible(true);
 			return false;
 		}
+		else{
+			int price = Integer.parseInt(text[1].getText());
+			if(price >0){
+				tip1.setVisible(false);
+				return true;
+			}
+			else{
+				tip1.setVisible(true);
+				return false;
+			}
+		}
+		
 	}
 }

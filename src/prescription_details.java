@@ -29,7 +29,7 @@ import com.swing.test.calender;
 
 public class  prescription_details extends HFrame{
 	//JPanel panel;
-	JLabel title,l2,tip1,tip2;
+	JLabel title,l2,tip1,tip2,tip3;
 	JComboBox status,m_s_id;
 	JButton ps,ds,save,close,ok,cancel,back1,msinfo;
 	String currentID,labels[] = {"Prescription ID:","Medicine/Service ID:","Frequency:","Number of days:","Status:"};
@@ -173,6 +173,13 @@ public class  prescription_details extends HFrame{
         status = new JComboBox<Object>(status1);
         status.setBounds(400, 340, 150, 20);
         panel.add(status);
+        
+
+        tip3 = new JLabel("info can't be empty");
+		tip3.setBounds(400, 390, 200, 20);
+		tip3.setForeground(Color.red);
+		panel.add(tip3);
+		tip3.setVisible(false);
        
         int j;
         for(j=0;j<4;j++)
@@ -491,6 +498,9 @@ public class  prescription_details extends HFrame{
 	{
 		freq.setEditable(false);
 		days.setEditable(false);
+		tip3.setVisible(false);
+		tip1.setVisible(false);
+		tip2.setVisible(false);
 	}
 	public void add()
 	{
@@ -703,22 +713,34 @@ public class  prescription_details extends HFrame{
 	}
 	public boolean truevalue()
 	{
-		int fre = Integer.parseInt(freq.getText());
-		int day = Integer.parseInt(days.getText());
-		if(fre > 0){
-			tip1.setVisible(false);
-		}
-		else{
-			tip1.setVisible(true);
-		}
-		if(day > 0)
+		String f = freq.getText();
+		String d = days.getText();
+		int f_d = 0;
+		if(f.equals("") || d.equals(""))
 		{
-			tip2.setVisible(false);
+			tip3.setVisible(true);
+			
 		}
 		else{
-			tip2.setVisible(true);
+			int fre = Integer.parseInt(freq.getText());
+			int day = Integer.parseInt(days.getText());
+			if(fre > 0){
+				tip1.setVisible(false);
+				f_d++;
+			}
+			else{
+				tip1.setVisible(true);
+			}
+			if(day > 0)
+			{
+				tip2.setVisible(false);
+				f_d++;
+			}
+			else{
+				tip2.setVisible(true);
+			}
 		}
-		if(fre > 0 && day > 0)
+		if(f.length()>0 && d.length()>0 && f_d == 2)
 		{
 			return true;
 		}

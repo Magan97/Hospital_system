@@ -35,7 +35,8 @@ import com.swing.test.timetest;
 
 public class Admission_details extends HFrame{
 	//JPanel panel;
-	JLabel title,tip1;
+	JLabel title,tip1,tip2,tip3;
+	String statusUnchanged = "";
 	JComboBox status,pat_id,guar_id,doc_id,room,ward,bed;
 	ArrayList<String> did = new ArrayList<String>();
 	ArrayList<String> pid = new ArrayList<String>();
@@ -138,6 +139,12 @@ public class Admission_details extends HFrame{
         l.setBounds(100, 220, 100, 20);
         panel.add(l);
         
+        tip2 = new JLabel("can't be empty");
+		tip2.setBounds(200, 200, 150, 20);
+		tip2.setForeground(Color.red);
+		panel.add(tip2);
+		tip2.setVisible(false);
+		
         emer = new JTextField("");
         emer.setBounds(200, 220, 100, 20);
         panel.add(emer);
@@ -362,6 +369,12 @@ public class Admission_details extends HFrame{
         status = new JComboBox<Object>(status1);
         status.setBounds(200, 360, 150, 20);
         panel.add(status);
+
+        tip3 = new JLabel("can't change status");
+		tip3.setBounds(200, 340, 150, 20);
+		tip3.setForeground(Color.red);
+		panel.add(tip3);
+		tip3.setVisible(false);
         
         rb1.addItemListener(new ItemListener() 
         {  
@@ -1156,10 +1169,14 @@ public class Admission_details extends HFrame{
 					timein2.setValue(t12);
 					emer.setText(rs.getString("emergency_contact"));
 					String ss = rs.getString("status");
-					if(ss.indexOf("Y") != -1)
+					if(ss.indexOf("Y") != -1){
 						status.setSelectedItem("Y-available");
-					else
+						statusUnchanged = "Y-available";
+					}
+					else{
 						status.setSelectedItem("N-leaving");
+						statusUnchanged = "N-leaving";
+					}
 				}
 			}catch(Exception e){			
 			}
@@ -1249,7 +1266,14 @@ public class Admission_details extends HFrame{
 				else{
 					System.out.println("add failed");
 					reminder("failed");
-				}   				
+				}   
+				
+				int rs5 = stmt.executeUpdate("update bed_details set available='N' "+"where bed_id like '"+info[4]+"'");
+				if(rs5 > 0)
+				{
+					System.out.println("delete the bed");
+				}
+				
 				con.commit();
 			}catch(Exception ex){
 				con.rollback();
@@ -1334,12 +1358,33 @@ public class Admission_details extends HFrame{
 		timetest t = new timetest();
 		if(t.before(text)){
 			tip1.setVisible(false);
-			return true;
 		}
 		else{
 			tip1.setVisible(true);
-			return false;
 		}
+		String em = emer.getText().toString();
+		System.out.println("emer="+em+";");
+		if(em.equals(""))
+		{
+			tip2.setVisible(true);
+		}
+		else{
+			tip2.setVisible(false);
+		}
+		if(status.getSelectedItem().toString().indexOf(statusUnchanged) != -1)
+		{
+			tip3.setVisible(false);
+		}
+		else{
+			tip3.setVisible(true);
+			status.setSelectedItem(statusUnchanged);
+		}
+		if(t.before(text) && em.length()>0 && status.getSelectedItem().toString().indexOf(statusUnchanged) != -1)
+		{
+			return true;
+		}
+		else
+			return false;
 	}
 }
 

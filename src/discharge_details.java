@@ -90,7 +90,7 @@ public class discharge_details extends HFrame{
         panel.add(adm_id);
         
         tip1 = new JLabel("Service hasn't finish");
-		tip1.setBounds(400, 210, 150, 20);
+		tip1.setBounds(400, 220, 150, 20);
 		tip1.setForeground(Color.red);
 		panel.add(tip1);
 		tip1.setVisible(false);
@@ -485,7 +485,37 @@ public class discharge_details extends HFrame{
 					else{
 						System.out.println("add failed");
 						reminder("failed");
-					}   				
+					}   
+					Statement stmt1 = (Statement) con.createStatement();
+					int rs1 = stmt1.executeUpdate("update admission_details set status='N' "+"where admission_id like '"+info[1]+"'");
+					if(rs1 > 0)
+					{
+						System.out.println("delete the addmission");
+					}
+					String patid = "";
+					String guaid = "";
+					String bed = "";
+					ResultSet rs3 = stmt.executeQuery("select * from admission_details where admission_id like '"+info[1]+"'");
+					while(rs3.next()){
+						patid = rs3.getString("patient_id");
+						guaid = rs3.getString("guardian_id");
+						bed = rs3.getString("bed_id");
+					}
+					int rs2 = stmt1.executeUpdate("update in_patient_details set status='N' "+"where patient_id like '"+patid+"'");
+					if(rs2 > 0)
+					{
+						System.out.println("delete the in patient");
+					}
+					int rs4 = stmt1.executeUpdate("update guardian_details set status='N' "+"where guardian_id like '"+guaid+"'");
+					if(rs4 > 0)
+					{
+						System.out.println("delete the guardian");
+					}
+					int rs5 = stmt1.executeUpdate("update bed_details set available='Y' "+"where bed_id like '"+bed+"'");
+					if(rs5 > 0)
+					{
+						System.out.println("open the bed");
+					}
 					con.commit();
 				}catch(Exception ex){
 					con.rollback();

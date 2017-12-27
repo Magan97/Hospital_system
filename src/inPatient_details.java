@@ -30,7 +30,7 @@ import com.swing.test.timetest;
 
 public class inPatient_details extends HFrame{
 	//JPanel panel;
-	JLabel title,l2,tip1,tip2,tip3;
+	JLabel title,l2,tip1,tip2,tip3,tip4;
 	JComboBox status,sex;
 	JButton ps,ds,save,close,ok,cancel,back1,guardian;
 	String currentID,labels[] = {"Firstname:","DOB:","Weight(kg):","Blood Group:","NIC Number:","Home Number:","Notes"};
@@ -69,6 +69,13 @@ public class inPatient_details extends HFrame{
         inpid.setBounds(200, 100, 150, 20);
         panel.add(inpid);
         inpid.setEditable(false);
+        
+
+        tip4 = new JLabel("info can't be empty");
+		tip4.setBounds(450, 100, 200, 20);
+		tip4.setForeground(Color.red);
+		panel.add(tip4);
+		tip4.setVisible(false);
         
         l2 = new JLabel("Personal Details--------------------------------------------------------"
         		+ "------------------------------------------------------------");
@@ -882,8 +889,7 @@ public class inPatient_details extends HFrame{
 	}
 	public boolean truevalue()
 	{
-		int w = Integer.parseInt(weight.getText());
-		int h = Integer.parseInt(height.getText());
+		
 		timetest t = new timetest();
 		if(t.before(text)){
 			tip3.setVisible(false);
@@ -891,17 +897,42 @@ public class inPatient_details extends HFrame{
 		else{
 			tip3.setVisible(true);
 		}
-		if(w > 0){
-			tip1.setVisible(false);
+		String f = fname.getText();
+		String l = lname.getText();
+		String n = nic.getText();
+		String hp = hphone.getText();
+		String mp = mphone.getText();
+		String a = address.getText();
+		String he = height.getText();
+		String we = weight.getText();
+		String b = blood.getText();
+		int nonull = 0;
+		int w_h = 0;
+		if(f.equals("")||l.equals("")||n.equals("")||hp.equals("")||mp.equals("")||a.equals("")||he.equals("")||we.equals("")||b.equals(""))
+		{
+			tip4.setVisible(true);
+			nonull = 0;
 		}
 		else{
-			tip1.setVisible(true);
+			tip4.setVisible(false);
+			nonull = 1;
+			int w = Integer.parseInt(weight.getText());
+			int h = Integer.parseInt(height.getText());
+			if(w > 0){
+				tip1.setVisible(false);
+				w_h++;
+			}
+			else{
+				tip1.setVisible(true);
+			}
+			if(h > 0){
+				tip2.setVisible(false);
+				w_h++;
+			}
+			else
+				tip2.setVisible(true);
 		}
-		if(h > 0)
-			tip2.setVisible(false);
-		else
-			tip2.setVisible(true);
-		if(w > 0 && h > 0 && t.before(text))
+		if(t.before(text)&&nonull==1&&w_h==2)
 			return true;
 		else
 			return false;

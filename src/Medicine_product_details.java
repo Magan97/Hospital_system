@@ -30,7 +30,7 @@ import com.swing.test.calender;
 
 public class Medicine_product_details extends HFrame{
 	//JPanel panel;
-	JLabel title,l2,tip1;
+	JLabel title,l2,tip1,tip2;
 	JComboBox status,supp_id,cate_id;
 	JButton ps,ds,save,close,ok,cancel,back1;
 	String currentID,labels[] = {"Product ID:","Product Name:","Supplier ID:","Category ID:","Utit Price:","Units in stock:","Reordert evel","Status:"};
@@ -80,6 +80,13 @@ public class Medicine_product_details extends HFrame{
         pid.setBounds(400, 140, 150, 20);
         panel.add(pid);
         pid.setEditable(false);
+        
+
+        tip2 = new JLabel("info can't be empty");
+		tip2.setBounds(580, 178, 200, 20);
+		tip2.setForeground(Color.red);
+		panel.add(tip2);
+		tip2.setVisible(false);
         
         pname = new JTextField("");
         pname.setBounds(400, 178, 150, 20);
@@ -689,14 +696,27 @@ public class Medicine_product_details extends HFrame{
 	}
 	public boolean truevalue()
 	{
-		int pri = Integer.parseInt(price.getText());
-		if(pri >0){
-			tip1.setVisible(false);
-			return true;
+		String n = pname.getText();
+		String p = price.getText();
+		String s = stock.getText();
+		String l = level.getText();
+		int b = 0;
+		if(n.equals("")||p.equals("")||s.equals("")||l.equals(""))
+		{
+			tip2.setVisible(true);
+			return false;
 		}
 		else{
-			tip1.setVisible(true);
-			return false;
+			tip2.setVisible(false);
+			int pri = Integer.parseInt(price.getText());
+			if(pri >0){
+				tip1.setVisible(false);
+				return true;
+			}
+			else{
+				tip1.setVisible(true);
+				return false;
+			}
 		}
 	}
 }

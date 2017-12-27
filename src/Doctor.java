@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -27,7 +28,7 @@ import com.mysql.jdbc.Statement;
 
 public class Doctor extends HFrame{
 	//JPanel panel;
-	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18;
+	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18,tip1;
 	JTextField id,fn,ln,hp,nn,mp,ad,qu,vc,note,cc,bs,record;
 	JComboBox sex,dt,sp,status;
 	JButton first,last,next,end,add,edit,save,refresh,viewall,close;
@@ -60,6 +61,13 @@ public class Doctor extends HFrame{
         id.setBounds(250, 100, 150, 20);
         panel.add(id);
                 
+
+        tip1 = new JLabel("info can't be empty");
+		tip1.setBounds(500, 100, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+        
         l2 = new JLabel("Personal Details--------------------------------------------------------"
         		+ "------------------------------------------------------------");
         l2.setBounds(80, 120, 800, 20);
@@ -538,7 +546,9 @@ public class Doctor extends HFrame{
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(truevalue()){
             	save();
+            	}
             }
         });
         
@@ -814,5 +824,28 @@ public class Doctor extends HFrame{
 			System.out.println("Can¡¯t load the Driver");
 		}
     	
+	}
+	public boolean truevalue()
+	{
+		String fn1 = fn.getText();
+		String ln1 = ln.getText();
+		String hp1 = hp.getText();
+		String nn1 = nn.getText();
+		String mp1 = mp.getText();
+		String ad1 = ad.getText();
+		String qu1 = qu.getText();
+		String vc1 = vc.getText();
+		String cc1 = cc.getText();
+		String bs1 = bs.getText();
+		
+		if(fn1.equals("") ||ln1.equals("")||hp1.equals("")||nn1.equals("")||mp1.equals("")||ad1.equals("")||qu1.equals("")||vc1.equals("")||cc1.equals("")||bs1.equals(""))
+		{
+			tip1.setVisible(true);
+			return false;
+		}
+		else{
+			tip1.setVisible(false);
+			return true;
+		}
 	}
 }
