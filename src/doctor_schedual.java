@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,12 +25,13 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import com.mysql.jdbc.Statement;
+import com.swing.test.timetest;
 
 
 public class doctor_schedual extends HFrame{
 	//JPanel panel;
 	JPanel panel1;
-	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18;
+	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18,tip1;
 	JTextField sid,days,note,cc,bs,record;
 	JComboBox did,dt,sp,status;
 	JButton first,last,next,end,add,edit,save,refresh,viewall,close,doctor_detail,update,cancel,ok;
@@ -98,6 +100,12 @@ public class doctor_schedual extends HFrame{
         l4 = new JLabel("Time in:");
         l4.setBounds(100, 190, 200, 20);
         panel.add(l4);
+        
+        tip1 = new JLabel("Time out must after in");
+		tip1.setBounds(480, 190, 150, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
         
         timein1 = new JSpinner(new SpinnerNumberModel(0, 0, 23, 1));
         timein1.setBounds(270, 190, 50, 20);
@@ -301,8 +309,11 @@ public class doctor_schedual extends HFrame{
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	save();
-            	schedual_table();
+            	if(truevalue())
+            	{
+                	save();
+                	schedual_table();
+            	}
             }
         });
         
@@ -336,10 +347,13 @@ public class doctor_schedual extends HFrame{
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	nonadd();
-            	getInfo(currentSID);
-            	schedual_table();
+            	if(truevalue())
+            	{
+                	addnew();
+                	nonadd();
+                	getInfo(currentSID);
+                	schedual_table();
+            	}
             }
         });
         
@@ -731,6 +745,7 @@ public class doctor_schedual extends HFrame{
 		timeout2.setEnabled(false);
 		days.setEditable(false);
 		note.setEditable(false);
+		tip1.setVisible(false);
 	}
 	public void edit()
 	{
@@ -907,6 +922,20 @@ public class doctor_schedual extends HFrame{
         });
         l.add(ok);
         l.setVisible(true);
+	}
+	public boolean truevalue()
+	{
+		int in = Integer.parseInt(timein1.getValue().toString());
+		int out = Integer.parseInt(timeout1.getValue().toString());
+		if(in <= out)
+		{
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
+		}
 	}
 }
 

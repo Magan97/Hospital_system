@@ -1,10 +1,13 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,11 +30,12 @@ import javax.swing.event.ChangeListener;
 
 import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
+import com.swing.test.timetest;
 
 
 public class Admission_details extends HFrame{
 	//JPanel panel;
-	JLabel title;
+	JLabel title,tip1;
 	JComboBox status,pat_id,guar_id,doc_id,room,ward,bed;
 	ArrayList<String> did = new ArrayList<String>();
 	ArrayList<String> pid = new ArrayList<String>();
@@ -116,11 +120,18 @@ public class Admission_details extends HFrame{
         l.setBounds(100, 180, 100, 20);
         panel.add(l);
         
+        tip1 = new JLabel("Date must before this day");
+		tip1.setBounds(200, 160, 150, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+        
         calender ser = calender.getInstance();
         text = new JTextField();
         text.setBounds(200, 180, 150, 20);
         text.setText("2017-10-11");
         ser.register(text);
+        text.setEditable(false);
         panel.add(text);
         
         l = new JLabel("Emergency:");
@@ -130,6 +141,35 @@ public class Admission_details extends HFrame{
         emer = new JTextField("");
         emer.setBounds(200, 220, 100, 20);
         panel.add(emer);
+        emer.addKeyListener(new KeyListener(){//can write number, +
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 43){
+        			//+
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         l = new JLabel("Room / Ward -------------");
         l.setBounds(100, 260, 100, 20);
@@ -446,8 +486,11 @@ public class Admission_details extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
-            	save();
-            	look();
+            	if(truevalue())
+            	{
+                	save();
+                	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -475,17 +518,20 @@ public class Admission_details extends HFrame{
         action[6].addActionListener(new ActionListener() { //update
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	look();
-            	getInfo(currentID);
-            	for(int i=0;i<4;i++)
+            	if(truevalue())
             	{
-            		move[i].setEnabled(true);
+            		addnew();
+                	look();
+                	getInfo(currentID);
+                	for(int i=0;i<4;i++)
+                	{
+                		move[i].setEnabled(true);
+                	}
+            		for(int i=0;i<6;i++)
+            			action[i].setVisible(true);
+            		for(int i=6;i<8;i++)
+            			action[i].setVisible(false);
             	}
-        		for(int i=0;i<6;i++)
-        			action[i].setVisible(true);
-        		for(int i=6;i<8;i++)
-        			action[i].setVisible(false);
             }
         });
         action[7].addActionListener(new ActionListener() { //back
@@ -1281,6 +1327,18 @@ public class Admission_details extends HFrame{
 			
 		}catch(ClassNotFoundException | SQLException ex){
 			System.out.println("Can¡¯t load the Driver");
+		}
+	}
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.before(text)){
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
 		}
 	}
 }

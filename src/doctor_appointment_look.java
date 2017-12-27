@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,7 @@ import com.swing.test.timetest;
 
 public class doctor_appointment_look extends HFrame{
 	//JPanel panel;
-	JLabel title,l2,l7,l6;
+	JLabel title,l2,l7,l6,tip1,tip2;
 	JComboBox status,pat_id,doc_id;
 	JButton ps,ds,save,close,ok,cancel,back1;
 	String currentID,labels[] = {"Appointment ID:","Patient ID:","Doctor ID:","Date:","Time:","Status:"};
@@ -117,12 +118,24 @@ public class doctor_appointment_look extends HFrame{
             }
         });
         
+        tip1 = new JLabel("Date must after this day");
+		tip1.setBounds(350, 260, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+		
         calender ser = calender.getInstance();
         text = new JTextField();
         text.setBounds(350, 280, 150, 20);
         text.setText("2013-10-11");
         ser.register(text);
         panel.add(text);
+        
+		tip2 = new JLabel("time is not available");
+		tip2.setBounds(350, 310, 150, 20);
+		tip2.setForeground(Color.red);
+		panel.add(tip2);
+		tip2.setVisible(false);
         
         timein1 = new JSpinner(new SpinnerNumberModel(0, 0, 23, 1));
         timein1.setBounds(350, 330, 50, 20);
@@ -232,8 +245,10 @@ public class doctor_appointment_look extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
-            	save();
-            	look();
+            	if(truevalue()){
+            		save();
+                	look();
+            	}         	
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -610,7 +625,7 @@ public class doctor_appointment_look extends HFrame{
 	}
 	public void edit()
 	{
-		text.setEditable(true);
+		text.setEditable(false);
 		timein1.setEnabled(true);
 		timein2.setEnabled(true);
 	}
@@ -680,6 +695,30 @@ public class doctor_appointment_look extends HFrame{
 			reminder("fails");
 		}
 		
+	}
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.after(text)){
+			tip1.setVisible(false);
+		}
+		else{
+			tip1.setVisible(true);
+		}
+		if(correct_date() == 1)
+		{
+			tip2.setVisible(false);
+		}
+		else{
+			tip2.setVisible(true);
+		}
+		if(t.after(text) && correct_date() == 1)
+		{
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
 

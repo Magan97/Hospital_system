@@ -8,9 +8,8 @@ public class Launcher {
 		OutPatientMedicalAppointment o = new OutPatientMedicalAppointment("MPID_1");
 		o.setVisible(true);
         o.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
-        MedicalServiceGUI MedicalServiceGUI1 = new MedicalServiceGUI("SVID_1");
-		MedicalServiceGUI1.setVisible(true);
-		MedicalServiceGUI1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		MedicalServiceGUI i = new MedicalServiceGUI();
+		
 
 		//db as = new db();
 		//as.asd();

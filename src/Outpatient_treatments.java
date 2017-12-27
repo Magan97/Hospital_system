@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,7 @@ import com.swing.test.calender;
 public class Outpatient_treatments extends HFrame{
 	//JPanel panel;
 	JPanel panel1;
-	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,title1;
+	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,title1,tip1;
 	JComboBox doc_id,pat_id,status,pre;
 	JButton ps,ds,pres,save,close,ok,cancel,back1;
 	String currentID,labels[] = {"Treatment ID:","Patient ID:","Doctor ID:","Date","Time","Descriptin","prescription_id","Status"};
@@ -110,6 +111,12 @@ public class Outpatient_treatments extends HFrame{
             	doc_table();
             }
         });
+        
+        tip1 = new JLabel("Date must after this day");
+		tip1.setBounds(550, 220, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
         
         calender ser = calender.getInstance();
         text = new JTextField();
@@ -252,8 +259,11 @@ public class Outpatient_treatments extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
-            	save();
-            	look();
+            	if(truevalue())
+            	{
+                	save();
+                	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -281,15 +291,18 @@ public class Outpatient_treatments extends HFrame{
         action[6].addActionListener(new ActionListener() { //update
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	look();
-            	getInfo(currentID);
-            	for(int i=0;i<4;i++)
-        			move[i].setEnabled(true);
-        		for(int i=0;i<6;i++)
-        			action[i].setVisible(true);
-        		for(int i=6;i<8;i++)
-        			action[i].setVisible(false);
+            	if(truevalue())
+            	{
+            		addnew();
+                	look();
+                	getInfo(currentID);
+                	for(int i=0;i<4;i++)
+            			move[i].setEnabled(true);
+            		for(int i=0;i<6;i++)
+            			action[i].setVisible(true);
+            		for(int i=6;i<8;i++)
+            			action[i].setVisible(false);
+            	}
             }
         });
         action[7].addActionListener(new ActionListener() { //back
@@ -700,7 +713,7 @@ public class Outpatient_treatments extends HFrame{
 		tid.setEditable(false);
 		pat_id.setSelectedIndex(0);
 		doc_id.setSelectedIndex(0);
-		text.setEditable(true);
+		text.setEditable(false);
 		timein1.setEnabled(true);
 		timein2.setEnabled(true);
 		des.setText("");
@@ -715,11 +728,11 @@ public class Outpatient_treatments extends HFrame{
 	}
 	public void edit()
 	{
-		text.setEditable(true);
+		text.setEditable(false);
 		timein1.setEnabled(true);
 		timein2.setEnabled(true);
 		des.setEditable(true);
-		pre.setEditable(true);
+		//pre.setEditable(true);
 	}
 	public void addnew()
 	{
@@ -827,6 +840,18 @@ public class Outpatient_treatments extends HFrame{
 			
 		}catch(ClassNotFoundException | SQLException ex){
 			System.out.println("Can¡¯t load the Driver");
+		}
+	}
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.aftertoday(text)){
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
 		}
 	}
 }

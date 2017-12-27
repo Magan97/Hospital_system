@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -67,7 +69,7 @@ public class Medicine_category extends HFrame{
         for(int i=0;i<4;i++)
         {
         	JLabel l= new JLabel(labels[i]);
-        	l.setBounds(200, 140+i*60, 100, 20);
+        	l.setBounds(200, 140+i*60, 150, 20);
         	panel.add(l);
         }
         
@@ -79,6 +81,33 @@ public class Medicine_category extends HFrame{
         cname = new JTextField("");
         cname.setBounds(400, 200, 150, 30);
         panel.add(cname);
+        cname.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         desc = new JTextField("");
         desc.setBounds(400, 260, 150, 30);

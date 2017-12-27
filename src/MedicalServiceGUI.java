@@ -20,7 +20,11 @@ public class MedicalServiceGUI extends HFrame
 	String currentSID="";
 	JButton[] action = new JButton[2];
 	String action_content[] = {"Update","Back"};
-	public MedicalServiceGUI(String SID)
+	MedicalServiceGUI()
+	{
+		this("SVID_1");
+	}
+	MedicalServiceGUI(String SID)
 	{
 		currentSID = SID;
 		setSize(900,700);
@@ -218,7 +222,7 @@ public class MedicalServiceGUI extends HFrame
             @Override
             public void actionPerformed(ActionEvent e) {
             	setVisible(false);
-                //new ViewHospitalServices().setVisible(true);
+                new ViewHospitalServices().setVisible(true);
                 dispose();
               }
            });
@@ -422,7 +426,7 @@ public class MedicalServiceGUI extends HFrame
 				System.out.println("failed");
 			}		
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Can't load the Driver");
 		}
 	}
 	
@@ -474,7 +478,7 @@ public class MedicalServiceGUI extends HFrame
 				return "SVID_1";
 			}
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Can't load the Driver");
 		}
 		return "";
 	}
@@ -550,7 +554,7 @@ public class MedicalServiceGUI extends HFrame
 			}
 			
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Can't load the Driver");
 		}
 	}
 	public String minID(){
@@ -577,7 +581,7 @@ public class MedicalServiceGUI extends HFrame
 			}
 			
 		}catch(ClassNotFoundException | SQLException ex){
-			System.out.println("Can¡¯t load the Driver");
+			System.out.println("Can't load the Driver");
 		}
 		return "";
 	}

@@ -109,6 +109,8 @@ public class MainInterface extends HFrame{
 		Medicine.add(newMenuItem("Suppliers", "Supplier_details"));
 		
 		//Xiong Yong
+		
+		Medicine.add(newMenuItem("Medical Service", "MedicalServiceGUI"));
 
 	}
 

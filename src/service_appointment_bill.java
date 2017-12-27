@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,11 +25,12 @@ import javax.swing.SpinnerNumberModel;
 
 import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
+import com.swing.test.timetest;
 
 
 public class service_appointment_bill extends HFrame{
 	//JPanel panel;
-	JLabel title,l2;
+	JLabel title,l2,tip1;
 	JComboBox status,inpat_id,appo_id;
 	JButton ps,ds,save,close,ok,cancel,back1,painfo,trinfo;
 	String currenaid;
@@ -149,6 +151,12 @@ public class service_appointment_bill extends HFrame{
             }
         });
         
+        tip1 = new JLabel("Date must before this day");
+		tip1.setBounds(220, 300, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+		
         calender ser = calender.getInstance();
         text = new JTextField();
         text.setBounds(220, 320, 150, 20);
@@ -271,8 +279,10 @@ public class service_appointment_bill extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(truevalue()){
             	save();
             	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -302,17 +312,21 @@ public class service_appointment_bill extends HFrame{
         action[6].addActionListener(new ActionListener() { //update
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	look();
-            	getInfo(currenaid);
-            	for(int i=0;i<4;i++)
+            	if(truevalue())
             	{
-            		move[i].setEnabled(true);
+            		addnew();
+                	look();
+                	getInfo(currenaid);
+                	for(int i=0;i<4;i++)
+                	{
+                		move[i].setEnabled(true);
+                	}
+            		for(int i=0;i<6;i++)
+            			action[i].setVisible(true);
+            		for(int i=6;i<8;i++)
+            			action[i].setVisible(false);
             	}
-        		for(int i=0;i<6;i++)
-        			action[i].setVisible(true);
-        		for(int i=6;i<8;i++)
-        			action[i].setVisible(false);
+            	
             }
         });
         action[7].addActionListener(new ActionListener() { //back
@@ -496,6 +510,7 @@ public class service_appointment_bill extends HFrame{
 		grand.setEditable(false);
 		discount.setEditable(false);
 		net.setEditable(false);
+		tip1.setVisible(false);
 	}
 	public void add()
 	{
@@ -848,6 +863,17 @@ public class service_appointment_bill extends HFrame{
 		discount.setText(disc+"");
 		net.setText(((charge+hosc)*disc/10)+"");
 	}
-
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.before(text)){
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
+		}
+	}
 }
 

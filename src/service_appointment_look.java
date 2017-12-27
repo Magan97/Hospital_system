@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,7 @@ import com.swing.test.timetest;
 
 public class service_appointment_look extends HFrame{
 	//JPanel panel;
-	JLabel title,l2,l7,l6;
+	JLabel title,l2,l7,l6,tip1;
 	JComboBox status,pat_id,doc_id;
 	JButton ps,ds,save,close,ok,cancel,back1;
 	String currentID,labels[] = {"Appointment ID:","Patient ID:","Service ID:","Date:","Time:","Status:"};
@@ -116,6 +117,12 @@ public class service_appointment_look extends HFrame{
             	doc_table();
             }
         });
+        
+        tip1 = new JLabel("Date must after this day");
+		tip1.setBounds(520, 280, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
         
         calender ser = calender.getInstance();
         text = new JTextField();
@@ -232,8 +239,10 @@ public class service_appointment_look extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
-            	save();
-            	look();
+            	if(truevalue()){
+	            	save();
+	            	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -637,7 +646,7 @@ public class service_appointment_look extends HFrame{
 	public void save()
 	{
 		timetest t = new timetest();
-		if(t.test(text) == true)
+		if(t.after(text) == true)
 		{
 			String info[] = new String[6];
 			info[0] = a_id.getText();
@@ -680,6 +689,18 @@ public class service_appointment_look extends HFrame{
 		}
 		else{
 			reminder("fails");
+		}
+	}
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.after(text)){
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
 		}
 	}
 }

@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -92,22 +94,166 @@ public class Supplier_details extends HFrame{
         cpname = new JTextField("");
         cpname.setBounds(400, 180, 150, 20);
         panel.add(cpname);
+        cpname.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         ctname = new JTextField("");
         ctname.setBounds(400, 220, 150, 20);
         panel.add(ctname);
+        ctname.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         address = new JTextField("");
         address.setBounds(400, 260, 150, 20);
         panel.add(address);
+        address.addKeyListener(new KeyListener(){//can write char,number, -
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char	
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 45){
+        			//-
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         phone = new JTextField("");
         phone.setBounds(400, 300, 150, 20);
         panel.add(phone);
+        phone.addKeyListener(new KeyListener(){//can write number, +
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 43){
+        			//+
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         fax = new JTextField("");
         fax.setBounds(400, 340, 150, 20);
         panel.add(fax);
+        fax.addKeyListener(new KeyListener(){//can write number, +
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 43){
+        			//+
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         String[] status1 = {"Y-available","N-leaving"};
         status = new JComboBox<Object>(status1);

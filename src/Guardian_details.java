@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -80,18 +82,130 @@ public class Guardian_details extends HFrame{
         fname = new JTextField("");
         fname.setBounds(200, 190, 150, 30);
         panel.add(fname);
+        fname.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         lname = new JTextField("");
         lname.setBounds(200, 240, 150, 30);
         panel.add(lname);
+        lname.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         nic = new JTextField("");
         nic.setBounds(200, 290, 150, 30);
         panel.add(nic);
+        nic.addKeyListener(new KeyListener(){//can write number,
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         address = new JTextField("");
         address.setBounds(200, 340, 150, 30);
         panel.add(address);
+        address.addKeyListener(new KeyListener(){//can write char,number, -
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char	
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 45){
+        			//-
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         for(int i=0;i<4;i++)
         {
@@ -103,14 +217,96 @@ public class Guardian_details extends HFrame{
         phone = new JTextField("");
         phone.setBounds(520, 140, 150, 30);
         panel.add(phone);
+        phone.addKeyListener(new KeyListener(){//can write number, +
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 43){
+        			//+
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         fax = new JTextField("");
         fax.setBounds(520, 190, 150, 30);
         panel.add(fax);
+        fax.addKeyListener(new KeyListener(){//can write number, +
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         occu = new JTextField("");
         occu.setBounds(520, 240, 150, 30);
         panel.add(occu);
+        occu.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         String[] status1 = {"Y-available","N-leaving"};
         status = new JComboBox<Object>(status1);
@@ -175,10 +371,9 @@ public class Guardian_details extends HFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
             	dispose();
-            	/*
-            	patient_details gd = new patient_details("GDID_1");
+                inPatient_details gd = new inPatient_details("IPID_1");
             	gd.setVisible(true);
-            	gd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); */
+            	gd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
             }
         });
         

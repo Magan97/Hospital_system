@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import com.mysql.jdbc.Statement;
 
 public class timetest {
-	public boolean test(JTextField text)
+	public boolean before(JTextField text)
 	{
 		String time = text.getText();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
@@ -21,6 +21,27 @@ public class timetest {
 			 Date dt1 = df.parse(time);
 			 Date dt2 = df.parse(now);
 			 if (dt1.getTime() <= dt2.getTime()) {
+				 System.out.println("dt1 在dt2前   ok");
+				 return true;
+			 } else{
+				 System.out.println("dt1在dt2后");
+				 text.setText("2017-12-22");
+				 return false;
+			 } 
+		} catch (Exception exception) {
+			 exception.printStackTrace();
+		}
+		return false;
+	}
+	public boolean after(JTextField text)
+	{
+		String time = text.getText();
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		String now = df.format(new Date());
+		try {
+			 Date dt1 = df.parse(time);
+			 Date dt2 = df.parse(now);
+			 if (dt1.getTime() >= dt2.getTime()) {
 				 System.out.println("dt1 在dt2前   ok");
 				 return true;
 			 } else{

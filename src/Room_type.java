@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -23,7 +24,7 @@ import com.mysql.jdbc.Statement;
 
 public class Room_type extends HFrame{
 	//JPanel panel;
-	JLabel title;
+	JLabel title,tip1;
 	String currentID,labels[] = {"Room Type:","Room Rates:","Notes:","Status"};
     JTextField[] text = new JTextField[3];
     int[] move_x = {120,220,540,640};
@@ -60,7 +61,7 @@ public class Room_type extends HFrame{
             	panel.add(l);
             	
             	text[i] = new JTextField(""); 
-            	text[i].setBounds(420, 150+40*i, 250, 20);
+            	text[i].setBounds(420, 150+40*i, 200, 20);
             	panel.add(text[i]);
         	}
         	else
@@ -75,8 +76,42 @@ public class Room_type extends HFrame{
                 panel.add(status);
         	}
         }
+        
+        tip1 = new JLabel("Rate must > 0");
+		tip1.setBounds(640, 190, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+        
         look();
         getInfo(1);
+        text[0].addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         text[1].addKeyListener(new KeyListener(){//can write number
         	@Override
         	public void keyTyped(KeyEvent e){
@@ -164,8 +199,10 @@ public class Room_type extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(truevalue()){
             	save();
             	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -179,8 +216,12 @@ public class Room_type extends HFrame{
         action[5].addActionListener(new ActionListener() { //add to db
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	rtype_table();
+            	if(truevalue())
+            	{
+            		addnew();
+                	rtype_table();	
+            	}
+            	
             }
         });
         action[6].addActionListener(new ActionListener() { //back
@@ -366,6 +407,7 @@ public class Room_type extends HFrame{
 		{
 			text[i].setEditable(false);
 		}
+		tip1.setVisible(false);
 	}
 	public void edit()
 	{
@@ -425,5 +467,18 @@ public class Room_type extends HFrame{
 			action[i].setVisible(false);
 		for(int i=5;i<7;i++)
 			action[i].setVisible(true);
+	}
+	
+	public boolean truevalue()
+	{
+		int price = Integer.parseInt(text[1].getText());
+		if(price >0){
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
+		}
 	}
 }

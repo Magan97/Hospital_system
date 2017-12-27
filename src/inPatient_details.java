@@ -1,8 +1,11 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,11 +25,12 @@ import javax.swing.SpinnerNumberModel;
 
 import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
+import com.swing.test.timetest;
 
 
 public class inPatient_details extends HFrame{
 	//JPanel panel;
-	JLabel title,l2;
+	JLabel title,l2,tip1,tip2,tip3;
 	JComboBox status,sex;
 	JButton ps,ds,save,close,ok,cancel,back1,guardian;
 	String currentID,labels[] = {"Firstname:","DOB:","Weight(kg):","Blood Group:","NIC Number:","Home Number:","Notes"};
@@ -83,6 +87,39 @@ public class inPatient_details extends HFrame{
         fname = new JTextField("");
         fname.setBounds(200, 140, 150, 20);
         panel.add(fname);
+        fname.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
+        
+        tip3 = new JLabel("Should before today");
+		tip3.setBounds(200, 160, 150, 20);
+		tip3.setForeground(Color.red);
+		panel.add(tip3);
+		tip3.setVisible(false);
         
         calender ser = calender.getInstance();
         text = new JTextField();
@@ -91,9 +128,41 @@ public class inPatient_details extends HFrame{
         ser.register(text);
         panel.add(text);
         
+        tip1 = new JLabel("Should large than 0");
+		tip1.setBounds(200, 200, 150, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+        
         weight = new JTextField("");
         weight.setBounds(200, 220, 150, 20);
         panel.add(weight);
+        weight.addKeyListener(new KeyListener(){//can write number, 
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         blood = new JTextField("");
         blood.setBounds(200, 260, 150, 20);
@@ -102,10 +171,65 @@ public class inPatient_details extends HFrame{
         nic = new JTextField("");
         nic.setBounds(200, 300, 150, 20);
         panel.add(nic);
+        nic.addKeyListener(new KeyListener(){//can write number, 
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         hphone = new JTextField("");
         hphone.setBounds(200, 340, 150, 20);
         panel.add(hphone);
+        hphone.addKeyListener(new KeyListener(){//can write number, +
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 43){
+        			//+
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         note = new JTextField("");
         note.setBounds(200, 380, 150, 20);
@@ -121,23 +245,143 @@ public class inPatient_details extends HFrame{
         lname = new JTextField("");
         lname.setBounds(520, 140, 150, 20);
         panel.add(lname);
+        lname.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         String[] sex1 = {"Male","Female"};
         sex = new JComboBox<Object>(sex1);
         sex.setBounds(520, 180, 150, 20);
         panel.add(sex);
         
+        tip2 = new JLabel("Should large than 0");
+		tip2.setBounds(520, 200, 150, 20);
+		tip2.setForeground(Color.red);
+		panel.add(tip2);
+		tip2.setVisible(false);
+        
         height = new JTextField("");
         height.setBounds(520, 220, 150, 20);
         panel.add(height);
+        height.addKeyListener(new KeyListener(){//can write number, 
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         address = new JTextField("");
         address.setBounds(520, 260, 150, 20);
         panel.add(address);
+        address.addKeyListener(new KeyListener(){//can write char,number, -
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char	
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 45){
+        			//-
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         mphone = new JTextField("");
         mphone.setBounds(520, 300, 150, 20);
         panel.add(mphone);
+        mphone.addKeyListener(new KeyListener(){//can write number, +
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else if(temp == 43){
+        			//+
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         String[] status1 = {"Y-available","N-leaving"};
         status = new JComboBox<Object>(status1);
@@ -249,8 +493,11 @@ public class inPatient_details extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
-            	save();
-            	look();
+            	if(truevalue())
+            	{
+                	save();
+                	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -278,18 +525,21 @@ public class inPatient_details extends HFrame{
         action[6].addActionListener(new ActionListener() { //update
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	look();
-            	getInfo(currentID);
-            	for(int i=0;i<4;i++)
+            	if(truevalue())
             	{
-            		move[i].setEnabled(true);
-            		guardian.setEnabled(true);
+            		addnew();
+                	look();
+                	getInfo(currentID);
+                	for(int i=0;i<4;i++)
+                	{
+                		move[i].setEnabled(true);
+                		guardian.setEnabled(true);
+                	}
+            		for(int i=0;i<6;i++)
+            			action[i].setVisible(true);
+            		for(int i=6;i<8;i++)
+            			action[i].setVisible(false);
             	}
-        		for(int i=0;i<6;i++)
-        			action[i].setVisible(true);
-        		for(int i=6;i<8;i++)
-        			action[i].setVisible(false);
             }
         });
         action[7].addActionListener(new ActionListener() { //back
@@ -456,13 +706,16 @@ public class inPatient_details extends HFrame{
 		height.setEditable(false);
 		address.setEditable(false);
 		mphone.setEditable(false);
+		tip1.setVisible(false);
+		tip2.setVisible(false);
+		tip3.setVisible(false);
 	}
 	public void add()
 	{
 		inpid.setText(newid());
 		fname.setEditable(true);
 		fname.setText("");
-		text.setEditable(true);
+		text.setEditable(false);
 		weight.setEditable(true);
 		weight.setText("");
 		blood.setEditable(true);
@@ -494,7 +747,7 @@ public class inPatient_details extends HFrame{
 	public void edit()
 	{
 		fname.setEditable(true);
-		text.setEditable(true);
+		text.setEditable(false);
 		weight.setEditable(true);
 		blood.setEditable(true);
 		nic.setEditable(true);
@@ -626,6 +879,32 @@ public class inPatient_details extends HFrame{
 		}catch(ClassNotFoundException | SQLException ex){
 			System.out.println("Can¡¯t load the Driver");
 		}
+	}
+	public boolean truevalue()
+	{
+		int w = Integer.parseInt(weight.getText());
+		int h = Integer.parseInt(height.getText());
+		timetest t = new timetest();
+		if(t.before(text)){
+			tip3.setVisible(false);
+		}
+		else{
+			tip3.setVisible(true);
+		}
+		if(w > 0){
+			tip1.setVisible(false);
+		}
+		else{
+			tip1.setVisible(true);
+		}
+		if(h > 0)
+			tip2.setVisible(false);
+		else
+			tip2.setVisible(true);
+		if(w > 0 && h > 0 && t.before(text))
+			return true;
+		else
+			return false;
 	}
 }
 

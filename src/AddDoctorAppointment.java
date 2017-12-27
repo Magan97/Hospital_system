@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -29,7 +30,7 @@ import java.util.Calendar;
 
 public class AddDoctorAppointment extends HFrame{
 	//JPanel panel;
-	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
+	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,tip1,tip2;
 	JComboBox doc_id,pat_id;
 	JButton ps,ds,save,close,ok,cancel;
 	ArrayList<String> did = new ArrayList<String>();
@@ -118,7 +119,13 @@ public class AddDoctorAppointment extends HFrame{
         l4 = new JLabel("Date:");
         l4.setBounds(100, 220, 100, 20);
         panel.add(l4);
-        
+
+        tip1 = new JLabel("Date must after this day");
+		tip1.setBounds(220, 250, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+		
         calender ser = calender.getInstance();
         text = new JTextField();
         text.setBounds(220, 220, 200, 20);
@@ -129,6 +136,12 @@ public class AddDoctorAppointment extends HFrame{
         l5 = new JLabel("Time:");
         l5.setBounds(100, 400, 100, 20);
         panel.add(l5);
+        
+		tip2 = new JLabel("time is not available");
+		tip2.setBounds(220, 380, 150, 20);
+		tip2.setForeground(Color.red);
+		panel.add(tip2);
+		tip2.setVisible(false);
         
         timein1 = new JSpinner(new SpinnerNumberModel(0, 0, 23, 1));
         timein1.setBounds(220, 400, 50, 20);
@@ -178,13 +191,9 @@ public class AddDoctorAppointment extends HFrame{
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if(correct_date() == 1) //ok
+            	if(truevalue()) //ok
             	{
             		save();
-            		//reminder("successsfully");
-            	}
-            	else{
-            		reminder("failed");
             	}
             }
         });
@@ -584,5 +593,29 @@ public class AddDoctorAppointment extends HFrame{
 			System.out.println("Can¡¯t load the Driver");
 		}
 		return "";
+	}
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.after(text)){
+			tip1.setVisible(false);
+		}
+		else{
+			tip1.setVisible(true);
+		}
+		if(correct_date() == 1)
+		{
+			tip2.setVisible(false);
+		}
+		else{
+			tip2.setVisible(true);
+		}
+		if(t.after(text) && correct_date() == 1)
+		{
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }

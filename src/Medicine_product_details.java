@@ -1,9 +1,12 @@
 
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,7 +30,7 @@ import com.swing.test.calender;
 
 public class Medicine_product_details extends HFrame{
 	//JPanel panel;
-	JLabel title,l2;
+	JLabel title,l2,tip1;
 	JComboBox status,supp_id,cate_id;
 	JButton ps,ds,save,close,ok,cancel,back1;
 	String currentID,labels[] = {"Product ID:","Product Name:","Supplier ID:","Category ID:","Utit Price:","Units in stock:","Reordert evel","Status:"};
@@ -81,6 +84,33 @@ public class Medicine_product_details extends HFrame{
         pname = new JTextField("");
         pname.setBounds(400, 178, 150, 20);
         panel.add(pname);
+        pname.addKeyListener(new KeyListener(){//only can write char
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if((temp >= 65 && temp <= 90) || (temp >= 97 && temp <= 122)){
+        			//char
+        			
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         getRtype();
         int size = supp_ids.size();
@@ -101,17 +131,101 @@ public class Medicine_product_details extends HFrame{
         cate_id.setBounds(400, 254, 150, 20);
         panel.add(cate_id);
         
+        tip1 = new JLabel("price must bigger than 0");
+		tip1.setBounds(570, 292, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+        
         price = new JTextField("");
         price.setBounds(400, 292, 150, 20);
         panel.add(price);
+        price.addKeyListener(new KeyListener(){//can write number
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         stock = new JTextField("");
         stock.setBounds(400, 330, 150, 20);
         panel.add(stock);
+        stock.addKeyListener(new KeyListener(){//can write number
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         level = new JTextField("");
         level.setBounds(400, 368, 150, 20);
         panel.add(level);
+        level.addKeyListener(new KeyListener(){//can write number
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         
         String[] status1 = {"Y-available","N-leaving"};
@@ -209,8 +323,10 @@ public class Medicine_product_details extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
-            	save();
-            	look();
+            	if(truevalue()){
+	            	save();
+	            	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -239,17 +355,19 @@ public class Medicine_product_details extends HFrame{
         action[6].addActionListener(new ActionListener() { //update
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	look();
-            	getInfo(currentID);
-            	for(int i=0;i<4;i++)
-            	{
-            		move[i].setEnabled(true);
-            	}
-        		for(int i=0;i<6;i++)
-        			action[i].setVisible(true);
-        		for(int i=6;i<8;i++)
-        			action[i].setVisible(false);
+            	if(truevalue()){
+            		addnew();
+                	look();
+                	getInfo(currentID);
+                	for(int i=0;i<4;i++)
+                	{
+                		move[i].setEnabled(true);
+                	}
+            		for(int i=0;i<6;i++)
+            			action[i].setVisible(true);
+            		for(int i=6;i<8;i++)
+            			action[i].setVisible(false);
+            	}            	
             }
         });
         action[7].addActionListener(new ActionListener() { //back
@@ -567,6 +685,18 @@ public class Medicine_product_details extends HFrame{
 			
 		}catch(ClassNotFoundException | SQLException ex){
 			System.out.println("Can¡¯t load the Driver");
+		}
+	}
+	public boolean truevalue()
+	{
+		int pri = Integer.parseInt(price.getText());
+		if(pri >0){
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
 		}
 	}
 }

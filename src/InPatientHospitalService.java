@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -25,12 +26,13 @@ import javax.swing.SpinnerNumberModel;
 
 import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
+import com.swing.test.timetest;
 
 import java.util.Calendar;
 
 public class InPatientHospitalService extends HFrame{
 	//JPanel panel;
-	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
+	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,tip1,tip2;
 	JComboBox adm_id,pat_id,ser_id;
 	JButton ps,as,ss,save,close,ok,cancel,back1;
 	ArrayList<String> aid = new ArrayList<String>();
@@ -91,6 +93,13 @@ public class InPatientHospitalService extends HFrame{
         l1 = new JLabel("Bill Date:");
         l1.setBounds(520, 100, 60, 20);
         panel.add(l1);
+        
+        
+        tip1 = new JLabel("Date must before this day");
+		tip1.setBounds(720, 100, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
         
         calender ser = calender.getInstance();
         text = new JTextField();
@@ -183,6 +192,12 @@ public class InPatientHospitalService extends HFrame{
             	adm_table();
             }
         });
+        
+        tip2 = new JLabel("Date must after this day");
+		tip2.setBounds(220, 280, 200, 20);
+		tip2.setForeground(Color.red);
+		panel.add(tip2);
+		tip2.setVisible(false);
         
         calender ser1 = calender.getInstance();
         date = new JTextField();
@@ -374,8 +389,12 @@ public class InPatientHospitalService extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
-            	save();
-            	look();
+            	if(truevalue())
+            	{
+            	      save();
+            	      look();	
+            	}
+
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -404,17 +423,20 @@ public class InPatientHospitalService extends HFrame{
         action[6].addActionListener(new ActionListener() { //update
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	look();
-            	getInfo(currentID);
-            	for(int i=0;i<4;i++)
+            	if(truevalue())
             	{
-            		move[i].setEnabled(true);
+            		addnew();
+                	look();
+                	getInfo(currentID);
+                	for(int i=0;i<4;i++)
+                	{
+                		move[i].setEnabled(true);
+                	}
+            		for(int i=0;i<6;i++)
+            			action[i].setVisible(true);
+            		for(int i=6;i<8;i++)
+            			action[i].setVisible(false);
             	}
-        		for(int i=0;i<6;i++)
-        			action[i].setVisible(true);
-        		for(int i=6;i<8;i++)
-        			action[i].setVisible(false);
             }
         });
         action[7].addActionListener(new ActionListener() { //back
@@ -876,8 +898,8 @@ public class InPatientHospitalService extends HFrame{
 					date.setText(rs.getString("service_date"));
 					String t = rs.getString("service_time");
 					String[] sourceArray = t.split(":");
-					timein1.setValue(sourceArray[0].toString());
-					timein2.setValue(sourceArray[1].toString());
+					timein1.setValue(Integer.parseInt(sourceArray[0].toString()));
+					timein2.setValue(Integer.parseInt(sourceArray[1].toString()));
 					desc.setText(rs.getString("description"));
 					ser_id.setSelectedItem(rs.getString("hospital_service_id"));
 					ser_n.setText(rs.getString("service_name"));
@@ -915,7 +937,7 @@ public class InPatientHospitalService extends HFrame{
 	{
 		b_id.setText(newid());
 		b_id.setEditable(false);
-		text.setEditable(true);
+		text.setEditable(false);
 		p_name.setEditable(false);
 		desc.setEditable(true);
 		ser_n.setEditable(false);
@@ -923,7 +945,7 @@ public class InPatientHospitalService extends HFrame{
 		ser_c.setText("");
 		desc.setEditable(true);
 		desc.setText("");
-		date.setEditable(true);
+		date.setEditable(false);
 		timein1.setEnabled(true);
 		timein2.setEnabled(true);
 		for(int i=0;i<4;i++)
@@ -935,8 +957,8 @@ public class InPatientHospitalService extends HFrame{
 	}
 	public void edit()
 	{
-		text.setEditable(true);
-		date.setEditable(true);
+		text.setEditable(false);
+		date.setEditable(false);
 		timein1.setEnabled(true);
 		timein2.setEnabled(true);
 		desc.setEditable(true);
@@ -1113,5 +1135,29 @@ public class InPatientHospitalService extends HFrame{
 			System.out.println("Can¡¯t load the Driver");
 		}
 		return "";
+	}
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.before(text)){
+			tip1.setVisible(false);
+		}
+		else{
+			tip1.setVisible(true);
+		}
+		if(t.after(date))
+		{
+			tip2.setVisible(false);
+		}
+		else{
+			tip2.setVisible(true);
+		}
+		if(t.before(text) && t.after(date))
+		{
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }

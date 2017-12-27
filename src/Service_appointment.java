@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,12 +25,13 @@ import javax.swing.SpinnerNumberModel;
 
 import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
+import com.swing.test.timetest;
 
 import java.util.Calendar;
 
 public class Service_appointment extends HFrame{
 	//JPanel panel;
-	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
+	JLabel title,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,tip1;
 	JComboBox ser_id,pat_id;
 	JButton ps,ds,save,close,ok,cancel;
 	ArrayList<String> did = new ArrayList<String>();
@@ -119,6 +121,12 @@ public class Service_appointment extends HFrame{
         l4.setBounds(100, 220, 100, 20);
         panel.add(l4);
         
+        tip1 = new JLabel("Date must after this day");
+		tip1.setBounds(220, 245, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+        
         calender ser = calender.getInstance();
         text = new JTextField();
         text.setBounds(220, 220, 200, 20);
@@ -168,7 +176,7 @@ public class Service_appointment extends HFrame{
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if(correct_date() == 1) //ok
+            	if(correct_date() == 1 && truevalue()) //ok
             	{
             		save();
             		//reminder("successsfully");
@@ -560,5 +568,17 @@ public class Service_appointment extends HFrame{
 			System.out.println("Can¡¯t load the Driver");
 		}
 		return "";
+	}
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.after(text)){
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
+		}
 	}
 }

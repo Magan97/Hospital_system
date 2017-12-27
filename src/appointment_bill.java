@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -33,11 +34,12 @@ import javax.swing.text.Element;
 
 import com.mysql.jdbc.Statement;
 import com.swing.test.calender;
+import com.swing.test.timetest;
 
 
 public class appointment_bill extends HFrame{  // for doctor appointment
 	//JPanel panel;
-	JLabel title,l2;
+	JLabel title,l2,tip1;
 	JComboBox status,inpat_id,appo_id;
 	JButton ps,ds,save,close,ok,cancel,back1,painfo,trinfo;
 	String currenaid;
@@ -157,6 +159,12 @@ public class appointment_bill extends HFrame{  // for doctor appointment
             	trtable();
             }
         });
+        
+        tip1 = new JLabel("Date must before this day");
+		tip1.setBounds(220, 300, 200, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
         
         calender ser = calender.getInstance();
         text = new JTextField();
@@ -305,8 +313,10 @@ public class appointment_bill extends HFrame{  // for doctor appointment
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(truevalue()){
             	save();
             	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -334,17 +344,19 @@ public class appointment_bill extends HFrame{  // for doctor appointment
         action[6].addActionListener(new ActionListener() { //update
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	look();
-            	getInfo(currenaid);
-            	for(int i=0;i<4;i++)
-            	{
-            		move[i].setEnabled(true);
+            	if(truevalue()){
+            		addnew();
+                	look();
+                	getInfo(currenaid);
+                	for(int i=0;i<4;i++)
+                	{
+                		move[i].setEnabled(true);
+                	}
+            		for(int i=0;i<6;i++)
+            			action[i].setVisible(true);
+            		for(int i=6;i<8;i++)
+            			action[i].setVisible(false);
             	}
-        		for(int i=0;i<6;i++)
-        			action[i].setVisible(true);
-        		for(int i=6;i<8;i++)
-        			action[i].setVisible(false);
             }
         });
         action[7].addActionListener(new ActionListener() { //back
@@ -528,6 +540,7 @@ public class appointment_bill extends HFrame{  // for doctor appointment
 		grand.setEditable(false);
 		discount.setEditable(false);
 		net.setEditable(false);
+		tip1.setVisible(false);
 	}
 	public void add()
 	{
@@ -540,7 +553,7 @@ public class appointment_bill extends HFrame{  // for doctor appointment
 		grand.setText("");
 		discount.setText("");
 		net.setText("");
-		text.setEditable(true);
+		text.setEditable(false);
 		for(int i=0;i<4;i++)
     		move[i].setEnabled(false);
 		for(int i=0;i<6;i++)
@@ -550,7 +563,7 @@ public class appointment_bill extends HFrame{  // for doctor appointment
 	}
 	public void edit()
 	{
-		text.setEditable(true);
+		text.setEditable(false);
 		/*
 		app_c.setEditable(true);
 		hos_c.setEditable(true);*/
@@ -882,6 +895,17 @@ public class appointment_bill extends HFrame{  // for doctor appointment
 		discount.setText(disc+"");
 		net.setText(((charge+hosc)*disc/10)+"");
 	}
-
+	public boolean truevalue()
+	{
+		timetest t = new timetest();
+		if(t.before(text)){
+			tip1.setVisible(false);
+			return true;
+		}
+		else{
+			tip1.setVisible(true);
+			return false;
+		}
+	}
 }
 

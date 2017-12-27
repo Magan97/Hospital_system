@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,7 @@ import com.swing.test.timetest;
 
 public class discharge_details extends HFrame{
 	//JPanel panel;
-	JLabel title,l2,l6,l7;
+	JLabel title,l2,l6,l7,tip1;
 	JComboBox status,adm_id;
 	JButton ps,ds,save,close,ok,cancel,back1;
 	String currentID,labels[] = {"Discharge ID:","Admission ID:","Discharge Date:","Discharge Time:","Status:"};
@@ -87,6 +88,12 @@ public class discharge_details extends HFrame{
         adm_id = new JComboBox<Object>(admid);
         adm_id.setBounds(400, 190, 150, 30);
         panel.add(adm_id);
+        
+        tip1 = new JLabel("Service hasn't finish");
+		tip1.setBounds(400, 210, 150, 20);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
         
         calender ser = calender.getInstance();
         text = new JTextField();
@@ -425,7 +432,7 @@ public class discharge_details extends HFrame{
 	public void add()
 	{
 		did.setText(newid());
-		text.setEditable(true);
+		text.setEditable(false);
 		timein1.setEnabled(true);
 		timein2.setEnabled(true);
 		for(int i=0;i<4;i++)
@@ -439,7 +446,7 @@ public class discharge_details extends HFrame{
 	}
 	public void edit()
 	{
-		text.setEditable(true);
+		text.setEditable(false);
 		timein1.setEnabled(true);
 		timein2.setEnabled(true);
 	}
@@ -458,6 +465,7 @@ public class discharge_details extends HFrame{
 		timetest t = new timetest();
 		if(t.discharge(text, info[1])==true)
 		{
+			tip1.setVisible(false);
 			try {
 				Class.forName(com.mysql.jdbc.Driver.class.getName());
 				String url = "jdbc:mysql://localhost/hospital_system";
@@ -489,7 +497,7 @@ public class discharge_details extends HFrame{
 			}
 		}
 		else{
-			reminder("fails");
+			tip1.setVisible(true);
 		}
 	}
 	public void reminder(String s){
@@ -527,6 +535,7 @@ public class discharge_details extends HFrame{
 		timetest t = new timetest();
 		if(t.discharge(text, info[1])==true)
 		{
+			tip1.setVisible(false);
 			try {
 				Class.forName(com.mysql.jdbc.Driver.class.getName());
 				String url = "jdbc:mysql://localhost/hospital_system";
@@ -556,7 +565,7 @@ public class discharge_details extends HFrame{
 			}
 		}
 		else{
-			reminder("fails");
+			tip1.setVisible(true);
 		}
 	}
 }

@@ -1,8 +1,11 @@
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,7 +30,7 @@ import com.swing.test.timetest;
 
 public class hospital_charge extends HFrame{
 	//JPanel panel;
-	JLabel title,l2;
+	JLabel title,l2,tip1,tip2,tip3;
 	JComboBox status;
 	JButton ps,ds,save,close,ok,cancel,back1;
 	String currentID,labels[] = {"hospital_id:","hospital_charges:","start_date:","discount:","Status:"};
@@ -76,9 +79,41 @@ public class hospital_charge extends HFrame{
         panel.add(hid);
         hid.setEditable(false);
         
+        tip3 = new JLabel("charge must > 0");
+		tip3.setBounds(570, 190, 200, 30);
+		tip3.setForeground(Color.red);
+		panel.add(tip3);
+		tip3.setVisible(false);
+        
         charge = new JTextField("");
         charge.setBounds(400, 190, 150, 30);
         panel.add(charge);
+        charge.addKeyListener(new KeyListener(){//only can number 
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}
+        	
+        });
         
         calender ser = calender.getInstance();
         text = new JTextField();
@@ -89,13 +124,50 @@ public class hospital_charge extends HFrame{
         
         discount = new JTextField("");
         discount.setBounds(400, 290, 150, 30);
-        panel.add(discount);       
+        panel.add(discount); 
+        discount.addKeyListener(new KeyListener(){//only can number 
+        	@Override
+        	public void keyTyped(KeyEvent e){
+        		int temp = e.getKeyChar();
+        		//System.out.println(temp);
+        		if(temp == 10){
+        			//enter
+        		}
+        		else if(temp >= 48 && temp <= 57){
+        			//number
+        		}
+        		else{
+        			//no
+        			e.consume();
+        		}
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e){
+        		
+        	}
+        	@Override
+        	public void keyPressed(KeyEvent e){
+        		
+        	}       	
+        });
         
         String[] status1 = {"Y-available","N-leaving"};
         status = new JComboBox<Object>(status1);
         status.setBounds(400, 340, 150, 30);
         panel.add(status);
        
+        tip1 = new JLabel("Date must after this day");
+		tip1.setBounds(580, 240, 200, 30);
+		tip1.setForeground(Color.red);
+		panel.add(tip1);
+		tip1.setVisible(false);
+		
+		tip2 = new JLabel("Discount must between 0-9");
+		tip2.setBounds(580, 290, 200, 30);
+		tip2.setForeground(Color.red);
+		panel.add(tip2);
+		tip2.setVisible(false);
+        
         int j;
         for(j=0;j<4;j++)
         {
@@ -186,8 +258,10 @@ public class hospital_charge extends HFrame{
         action[2].addActionListener(new ActionListener() { //save
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(truedata()){
             	save();
             	look();
+            	}
             }
         });
         action[3].addActionListener(new ActionListener() { //refresh
@@ -215,17 +289,21 @@ public class hospital_charge extends HFrame{
         action[6].addActionListener(new ActionListener() { //update
             @Override
             public void actionPerformed(ActionEvent e) {
-            	addnew();
-            	look();
-            	getInfo(currentID);
-            	for(int i=0;i<4;i++)
+            	if(truedata())
             	{
-            		move[i].setEnabled(true);
+            		addnew();
+                	look();
+                	getInfo(currentID);
+                	for(int i=0;i<4;i++)
+                	{
+                		move[i].setEnabled(true);
+                	}
+            		for(int i=0;i<6;i++)
+            			action[i].setVisible(true);
+            		for(int i=6;i<8;i++)
+            			action[i].setVisible(false);
             	}
-        		for(int i=0;i<6;i++)
-        			action[i].setVisible(true);
-        		for(int i=6;i<8;i++)
-        			action[i].setVisible(false);
+            	
             }
         });
         action[7].addActionListener(new ActionListener() { //back
@@ -380,7 +458,7 @@ public class hospital_charge extends HFrame{
 		charge.setText("");
 		discount.setEditable(true);
 		discount.setText("");
-		text.setEditable(true);
+		text.setEditable(false);
 		for(int i=0;i<4;i++)
 		{
     		move[i].setEnabled(false);
@@ -394,10 +472,11 @@ public class hospital_charge extends HFrame{
 	{
 		charge.setEditable(true);
 		discount.setEditable(true);
-		text.setEditable(true);
+		text.setEditable(false);
 	}
 	public void addnew()
 	{
+		truedata();
 		String info[] = new String[5];
 		info[0] = hid.getText();
 		info[1] = charge.getText();
@@ -409,9 +488,8 @@ public class hospital_charge extends HFrame{
 		else
 			info[4] = "N";
 		timetest t = new timetest();
-		if(t.test(text) == true)
+		if(t.after(text) == true   && Integer.parseInt(info[3]) < 10)
 		{
-			
 			try {
 				Class.forName(com.mysql.jdbc.Driver.class.getName());
 				String url = "jdbc:mysql://localhost/hospital_system";
@@ -476,6 +554,7 @@ public class hospital_charge extends HFrame{
     }
 	public void save()
 	{
+		truedata();
 		String info[] = new String[5];
 		info[0] = hid.getText();
 		info[1] = charge.getText();
@@ -487,7 +566,7 @@ public class hospital_charge extends HFrame{
 		else
 			info[4] = "N";
 		timetest t = new timetest();
-		if(t.test(text) == true)
+		if(t.after(text) == true  && Integer.parseInt(info[3]) < 10)
 		{
 			try {
 				Class.forName(com.mysql.jdbc.Driver.class.getName());
@@ -529,6 +608,39 @@ public class hospital_charge extends HFrame{
 			reminder("fails");
 		}
 	}
-	
+	public boolean truedata()
+	{		
+		timetest t = new timetest();
+		if(t.after(text) != true)
+		{
+			tip1.setVisible(true);
+		}
+		else{
+			tip1.setVisible(false);
+		}
+		String di = discount.getText();
+		if(Integer.parseInt(di) >= 10)
+		{
+			tip2.setVisible(true);
+		}
+		else{
+			tip2.setVisible(false);
+		}
+		int cha = Integer.parseInt(charge.getText());
+		if(cha > 0)
+		{
+			tip3.setVisible(false);
+		}
+		else{
+			tip3.setVisible(true);
+		}
+		if(t.after(text) == true  && Integer.parseInt(di)<10 && cha > 0)	
+		{
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
 
